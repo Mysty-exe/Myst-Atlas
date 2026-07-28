@@ -1,0 +1,485 @@
+.satellite-select-panel {
+
+    position: absolute;
+
+
+    width: 330px;
+
+    background:
+        rgba(7, 22, 49, 0.3);
+
+    backdrop-filter:
+        blur(12px);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 14px;
+
+    color: white;
+
+    overflow: auto;
+
+    font-family: "Space Grotesk", sans-serif;
+}
+
+.satellite-selection-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    padding: 20px 20px 5px 20px;
+}
+
+.satellite-selection-header h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.selection-content {
+
+    padding: 0 18px 18px;
+}
+
+
+.selection-description {
+
+    color:
+        rgba(255, 255, 255, 0.65);
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+.satellite-options {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    margin-top: 15px;
+
+    max-height: calc(95vh - 130px);
+    overflow-y: auto;
+}
+
+.satellite-options::-webkit-scrollbar {
+    width: 6px;
+}
+
+.satellite-options::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.satellite-options::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+.satellite-options::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.satellite-option {
+
+    width: 100%;
+
+    padding: 12px;
+
+    text-align: left;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    color: white;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s,
+        transform 0.15s;
+}
+
+
+.satellite-option:hover {
+
+    background:
+        rgba(255, 255, 255, 0.12);
+
+    transform: translateX(-3px);
+}
+
+
+.option-name {
+
+    font-size: 14px;
+
+    font-weight: 500;
+}
+
+
+.option-info {
+
+    margin-top: 4px;
+
+    font-size: 12px;
+
+    color:
+        rgba(255, 255, 255, 0.55);
+
+    font-family:
+        "JetBrains Mono", monospace;
+}
+
+.satellite-panel {
+    position: absolute;
+
+    top: 90px;
+    right: 20px;
+
+    width: 330px;
+
+    opacity: 0;
+    transform: translateX(40px);
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.3s ease,
+        transform 0.5s ease;
+
+    max-height: calc(95vh - 130px);
+    
+    display: flex;
+    flex-direction: column;
+    
+    background: rgba(7, 22, 49, 0.3);
+    backdrop-filter: blur(12px);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    
+    color: white;
+    
+    overflow: visible;
+}
+
+.satellite-panel.open {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+
+    pointer-events: auto;
+}
+
+.satellite-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    padding: 20px;
+}
+
+.satellite-header h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.satellite-status {
+    display: flex;
+
+    gap: 10px;
+
+    padding: 0 20px 15px;
+}
+
+.status-item {
+    flex: 1;
+
+    padding: 10px;
+
+    background: rgba(255, 255, 255, 0.05);
+
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+.status-item span {
+    color: rgba(255, 255, 255, 0.55);
+
+    font-size: 12px;
+}
+
+.status-item b {
+    color: white;
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 14px;
+}
+
+.satellite-type {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    }
+
+.panel-tabs {
+    display: flex;
+
+    padding: 0 18px 12px;
+
+    gap: 8px;
+}
+
+.tab {
+    flex: 1;
+
+    padding: 8px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: rgba(255, 255, 255, 0.05);
+
+    color: rgba(255, 255, 255, 0.7);
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.tab.active {
+    background: rgba(255, 255, 255, 0.20);
+    color: white;
+}
+
+.panel-content {
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 0 18px 18px;
+}
+
+.panel-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.panel-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.panel-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+.panel-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.info-section {
+    margin-bottom: 0px;
+}
+
+.info-section h3 {
+    margin-bottom: 12px;
+
+    font-size: 15px;
+
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 15px;
+}
+
+
+.info-row span:last-child {
+    font-family: "JetBrains Mono", monospace;
+
+    text-align: right;
+
+    max-width: 80%;
+
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 6px 0;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+
+    font-size: 14px;
+}
+
+.info-row span:first-child {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.info-row span:last-child {
+    font-family: "JetBrains Mono", monospace;
+}
+
+.panel-actions {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+
+    padding: 18px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.panel-actions button {
+    padding: 10px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #ffffff0f;
+
+    color: white;
+
+    cursor: pointer;
+
+    transition: 0.15s;
+}
+
+.panel-actions button:hover {
+    background: #ffffff24;
+}
+
+.panel-actions .active {
+    background: rgba(255, 255, 255, 0.20);
+    color: white;
+}
+
+.close-button {
+    width: 32px;
+    height: 32px;
+
+    border: none;
+    border-radius: 25%;
+
+    background: rgba(255, 255, 255, 0.05);
+
+    color: white;
+
+    cursor: pointer;
+}
+
+.close-button:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.tooltip {
+    position: relative;
+
+    margin-left: 6px;
+
+    color: rgba(255, 255, 255, 0.45);
+
+    cursor: help;
+}
+
+.tooltip-text {
+    position: fixed;
+
+    transform: translate(-50%, -120%);
+    width: 220px;
+
+    padding: 10px;
+
+    font-family: "JetBrains Mono", monospace;
+    color: white;
+    background: rgba(7,22,49,0.95);
+
+    border: 1px solid rgba(255,255,255,0.1);
+
+    border-radius: 8px;
+
+    font-size: 12px;
+    line-height: 1.4;
+
+    z-index: 9999;
+}
+
+.tooltip:hover .tooltip-text {
+    opacity: 1;
+}
+
+.pass-card {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 10px 12px;
+
+    margin-bottom: 8px;
+
+    background:
+        rgba(255, 255, 255, 0.05);
+
+    border-radius: 8px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.05);
+
+    transition: 0.15s;
+}
+
+
+.pass-card:hover {
+    background:
+        rgba(255, 255, 255, 0.1);
+}
+
+
+.pass-time {
+    font-family:
+        "JetBrains Mono", monospace;
+
+    font-size: 12px;
+
+    color:
+        rgba(255, 255, 255, 0.55);
+}
+
+
+.pass-location {
+    font-size: 13px;
+
+    color:
+        rgba(255, 255, 255, 0.9);
+
+    text-align: right;
+}

@@ -66,16 +66,29 @@ enum class SatelliteType
     CubeSats
 };
 
+struct Position
+{
+    double lat, lon, alt;
+    Position() {}
+    Position(double lat, double lon, double alt)
+    {
+        this->lat = lat;
+        this->lon = lon;
+        this->alt = alt;
+    }
+};
+
 struct SatelliteDTO
 {
-    std::string name, colour;
+    std::string name, NORAD, colour;
     double lat, lon, alt;
     SatelliteDTO()
     {
     }
-    SatelliteDTO(std::string name, std::string colour, double lat, double lon, double alt)
+    SatelliteDTO(std::string name, std::string NORAD, std::string colour, double lat, double lon, double alt)
     {
         this->name = name;
+        this->NORAD = NORAD;
         this->colour = colour;
         this->lat = lat;
         this->lon = lon;
@@ -87,7 +100,13 @@ struct SatelliteDetails
 {
     // Basic Information
     std::string name;
+    std::string tleData;
+    std::string tleAge;
+    std::string tleAccuracy;
+    std::string tleAgeColour;
     std::string colour;
+    std::string group;
+    std::string type;
     std::string epoch;
     std::string designator;
 
@@ -106,7 +125,7 @@ struct SatelliteDetails
 
     // Orbital Elements
     double inclination;
-    double RAN;
+    double RAAN;
     double eccentricity;
     double argumentPerigee;
     double meanAnomaly;
@@ -127,7 +146,7 @@ struct SatelliteDetails
           velY(0.0),
           velZ(0.0),
           inclination(0.0),
-          RAN(0.0),
+          RAAN(0.0),
           eccentricity(0.0),
           argumentPerigee(0.0),
           meanAnomaly(0.0),
@@ -156,7 +175,7 @@ struct SatelliteDetails
           velY(0.0),
           velZ(0.0),
           inclination(0.0),
-          RAN(0.0),
+          RAAN(0.0),
           eccentricity(0.0),
           argumentPerigee(0.0),
           meanAnomaly(0.0),
@@ -172,17 +191,21 @@ class Satellite
 {
 private:
     SatelliteType satelliteType;
-    std::string name, colour, TleLineOne, TleLineTwo;
+    std::string name, NORAD, colour, TleLineOne, TleLineTwo;
+    double meanMotion;
     std::unique_ptr<libsgp4::SGP4> propogator;
 
 public:
     Satellite();
     Satellite(std::string name, SatelliteType satelliteType, std::string colour, std::string TLE1, std::string TLE2);
     static std::string getSatelliteTypeStr(SatelliteType satelliteType);
+    std::string getSatelliteGroupType(SatelliteType satelliteType);
     std::string getName() { return name; };
+    std::string getNORAD() { return NORAD; };
     libsgp4::CoordGeodetic getCurrentPosition(std::time_t startDate, double tSince);
     libsgp4::Vector getCurrentVelocity(std::time_t startDate, double tSince);
     SatelliteType getSatelliteType() { return satelliteType; }
     SatelliteDTO getDTO(std::time_t startDate, double tSince);
     SatelliteDetails getDetails(std::time_t startDate, double tSince);
+    float getMeanMotion();
 };

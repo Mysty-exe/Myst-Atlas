@@ -1,20 +1,24 @@
 import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
+import { AppContext } from "../App";
 
-interface SunProps {
-    timeRateRef: RefObject<any>
-}
 
-const Sun = ({ timeRateRef }: SunProps) => {
+function Sun() {
+    const context = useContext(AppContext)
     const sunRef = useRef(null);
 
-    useFrame((state, delta) => {
-        const speed = (2 * Math.PI) / (365 * 24 * 60 * 60);
-        const angle = state.clock.elapsedTime * speed * timeRateRef.current;
+    useFrame(() => {
+        const YEAR_SECONDS = 365.2422 * 24 * 60 * 60;
 
-        sunRef.current.position.y = 0;
-        sunRef.current.position.x = -1 * Math.cos(angle);
-        sunRef.current.position.z = Math.sin(angle);
+        const angle =
+            ((2 * Math.PI * context.tSinceRef.current) / YEAR_SECONDS) %
+            (2 * Math.PI);
+
+        sunRef.current.position.set(
+            -Math.cos(angle),
+            0,
+            Math.sin(angle)
+        );
     });
 
     return (

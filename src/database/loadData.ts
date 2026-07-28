@@ -48,6 +48,7 @@ function updateLoop() {
 
             data.push({
                 name: sat.name,
+                NORAD: sat.NORAD,
                 colour: sat.colour,
                 lat: sat.lat,
                 lon: sat.lon,
@@ -142,6 +143,72 @@ function getSatellite(index: number)
     }
 }
 
+function getTrajectory(index: number) 
+{
+    let start = 0;
+    for (const group of satelliteGroups)
+    {
+        const count = Module.getSatellitesNum(group);
+
+        if (index < start + count) {
+            const localIndex = index - start;
+
+            const data = Module.getSatelliteTrajectory(group, localIndex, tSince);
+            const trajectory = [];
+
+            for (let i = 0; i < data.size(); i++) {
+                const sat = data.get(i);
+
+                trajectory.push({
+                    lat: sat.lat,
+                    lon: sat.lon,
+                    alt: sat.alt
+                });
+            }
+
+            data.delete();
+
+            self.postMessage({
+                type: "getTrajectory",
+                trajectory: trajectory
+            })
+
+            return;
+        }
+
+        start += count;
+    }
+}
+
+async function getSatelliteLocation(index, points) {
+    const locations = [];
+
+    for (const point of points) {
+        const lat = point.lat * (180 / Math.PI);
+        const lon = point.lon * (180 / Math.PI);
+
+        const response = await fetch(
+            `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&apiKey=14b7f95ae34e4b4584c63627a15968a2`
+        );
+
+        const data = await response.json();
+
+        locations.push({
+            city: data.features[0].properties.city,
+            state: data.features[0].properties.state,
+            country: data.features[0].properties.country,
+            ocean: data.features[0].properties.name
+        });
+
+    }
+
+    self.postMessage({
+        type: "getSatelliteLocation",
+        index: index,
+        location: locations
+    })
+}
+
 self.onmessage = async (event) => {
     if (event.data.type === "start") {
         await start(event.data.tSince);
@@ -151,12 +218,20 @@ self.onmessage = async (event) => {
         getSatellite(event.data.index);
     }
 
+    if (event.data.type === "getTrajectory") {
+        getTrajectory(event.data.index);
+    }
+
     if (event.data.type === "updateGroups") {
         updateGroups(event.data.groups);
     }
 
     if (event.data.type == "setTimeRate") {
         tSince = event.data.tSince;
+    }
+
+    if (event.data.type == "getSatelliteLocation") {
+        getSatelliteLocation(event.data.index, event.data.points);
     }
 
     if (event.data.type === "stop") {

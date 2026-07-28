@@ -3,7 +3,7 @@ import { Vector3 } from "three";
 
 export const earth = {
     pos: new Vector3(),
-    radius: 100,
+    radius: 1000,
     tilt: 23.44
 }
 

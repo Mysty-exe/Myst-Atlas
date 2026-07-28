@@ -1,40 +1,49 @@
-import { useState, type RefObject } from "react";
-import type { UIProps } from "./UIOverlay";
+import '../styles/TimeControls.css';
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "../App";
 
 interface TimeControlsProps {
-  showTime: RefObject<boolean>;
+  showTime: boolean;
+  setShowTime: any;
 }
 
-function TimeControls({ startDate, date, tSinceRef, timeRateRef, workerRef, groups, showTime }: UIProps & TimeControlsProps) {
-    const [quickSpeed, setQuickSpeed] = useState(1);
+function TimeControls({ showTime, setShowTime }: TimeControlsProps) {
+    const context = useContext(AppContext);
+    const [quickSpeed, setQuickSpeed] = useState(-1);
 
     const setQuickSpeedFunc = (num: number) => {
-        timeRateRef.current = num;
+        context.setTimeRate(num);
         setQuickSpeed(num);
     }
 
+    useEffect(() => {
+        setQuickSpeed(-1);
+        if (context.timeRate == -1000 || context.timeRate == -10 || context.timeRate == 1 || context.timeRate == 10 || context.timeRate == 1000)
+            setQuickSpeed(context.timeRate);
+    }, [context.timeRate])
+
     return (
-        <div className="time-popup">
+        <div className={`time-popup ${showTime ? "open" : ""} ${context.selectedSatellite ? "move" : ""}`}>
 
             <div className="time-header">
                 <h3>Simulation Time</h3>
 
                 <button className="close-button"
                     onClick={() => {
-                        showTime.current = false;
+                        setShowTime(false)
                     }}
                 >×</button>
             </div>
 
             <div className="current-time">
-                <div className="date">{date.toLocaleDateString()}</div>
-                <div className="clock">{date.toLocaleTimeString()}</div>
+                <div className="date">{context.currentDate.toLocaleDateString()}</div>
+                <div className="clock">{context.currentDate.toLocaleTimeString()}</div>
             </div>
 
             <button className="reset-button"
             onClick={() => {
                 const currentTime = new Date();
-                tSinceRef.current = (currentTime.getTime() - startDate.getTime()) / 1000;
+                context.tSinceRef.current = (currentTime.getTime() - context.startAppDate.current.getTime()) / 1000;
             }}>
                 Reset to Current Time
             </button>
@@ -46,7 +55,8 @@ function TimeControls({ startDate, date, tSinceRef, timeRateRef, workerRef, grou
                 <input type="datetime-local"
                     onChange={e => {
                         const selectedDate = new Date(e.target.value);
-                        tSinceRef.current = (selectedDate.getTime() - startDate.getTime()) / 1000;
+                        console.log("DFSDFJK")
+                        context.tSinceRef.current = (selectedDate.getTime() - context.startAppDate.current.getTime()) / 1000;
                     }}
                 />
 
@@ -59,14 +69,17 @@ function TimeControls({ startDate, date, tSinceRef, timeRateRef, workerRef, grou
                 <div className="rate-input">
                     <input
                         type="number"
-                        min="-10000"
-                        max="10000"
-                        value={timeRateRef.current}
+                        min="-1000000"
+                        max="1000000"
+                        value={context.timeRate}
                         onChange={e => {
-                            timeRateRef.current = e.target.value;
+                            context.setTimeRate(e.target.value);
                             setQuickSpeed(-1);
-                            if (timeRateRef.current == 1 || timeRateRef.current == 10 || timeRateRef.current == 100)
-                                setQuickSpeed(timeRateRef.current);
+                            if (e.target.value == -1000 || e.target.value == -10 || e.target.value == 1 || e.target.value == 10 || e.target.value == 1000)
+                                setQuickSpeed(e.target.value);
+
+                            if (e.target.value <= -100 || e.target.value >= 100)
+                                context.followSatellite.current = false;
                         }}
                     />
 
@@ -81,15 +94,21 @@ function TimeControls({ startDate, date, tSinceRef, timeRateRef, workerRef, grou
 
                 <div className="speed-options">
 
+                    <button className={(quickSpeed == -1000) ? "active" : ""}
+                        onClick={() => setQuickSpeedFunc(-1000)}
+                    >-1000</button>
+                    <button className={(quickSpeed == -10) ? "active" : ""}
+                        onClick={() => setQuickSpeedFunc(-10)}
+                    >-10</button>
                     <button className={(quickSpeed == 1) ? "active" : ""}
                         onClick={() => setQuickSpeedFunc(1)}
                     >1x</button>
                     <button className={(quickSpeed == 10) ? "active" : ""}
                         onClick={() => setQuickSpeedFunc(10)}
                     >10x</button>
-                    <button className={(quickSpeed == 100) ? "active" : ""}
-                        onClick={() => setQuickSpeedFunc(100)}
-                    >100x</button>
+                    <button className={(quickSpeed == 1000) ? "active" : ""}
+                        onClick={() => setQuickSpeedFunc(1000)}
+                    >1000x</button>
 
                 </div>
 

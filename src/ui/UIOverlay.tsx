@@ -1,21 +1,14 @@
-import { useRef, type RefObject } from "react";
+import '../styles/UIOverlay.css';
 import Filter from "./Filter";
 import Topbar from "./Topbar";
+import DetailsPanel from "./Panel";
 
-export interface UIProps {
-  startDate: Date
-  date: Date
-  tSinceRef: RefObject<any>
-  timeRateRef: RefObject<any>
-  groups: RefObject<Map<any, any>>
-  workerRef: RefObject<any>;
-}
-
-function UI(props: UIProps) {
+function UI() {
   return (
     <div className="overlay">
-      <Topbar startDate={props.startDate} date={props.date} tSinceRef={props.tSinceRef} timeRateRef={props.timeRateRef} groups={props.groups} workerRef={props.workerRef} />
-      <Filter groups={props.groups} workerRef={props.workerRef} />
+      <Topbar />
+      <Filter />
+      <DetailsPanel />
     </div>
   );
 }

@@ -55,57 +55,59 @@ Simulation::Simulation()
               std::make_pair(SatelliteType::CubeSats, 0)}}};
 
     satelliteFiles = {// Earth Observation / Mission
-                      {"stations", {SatelliteType::SpaceStation, "blue"}},
-                      {"weather", {SatelliteType::Weather, "blue"}},
-                      {"resource", {SatelliteType::EarthResources, "blue"}},
-                      {"sar", {SatelliteType::SyntheticApertureRadar, "blue"}},
-                      {"sarsat", {SatelliteType::SearchAndRescue, "blue"}},
-                      {"dmc", {SatelliteType::DisasterMonitoring, "blue"}},
-                      {"tdrss", {SatelliteType::TrackingAndDataRelay, "blue"}},
-                      {"argos", {SatelliteType::Argos, "blue"}},
-                      {"planet", {SatelliteType::Planet, "blue"}},
-                      {"spire", {SatelliteType::Spire, "blue"}},
+                      {"stations", {SatelliteType::SpaceStation, "#34D399"}},
+                      {"weather", {SatelliteType::Weather, "#34D399"}},
+                      {"resource", {SatelliteType::EarthResources, "#34D399"}},
+                      {"sar", {SatelliteType::SyntheticApertureRadar, "#34D399"}},
+                      {"sarsat", {SatelliteType::SearchAndRescue, "#34D399"}},
+                      {"dmc", {SatelliteType::DisasterMonitoring, "#34D399"}},
+                      {"tdrss", {SatelliteType::TrackingAndDataRelay, "#34D399"}},
+                      {"argos", {SatelliteType::Argos, "#34D399"}},
+                      {"planet", {SatelliteType::Planet, "#34D399"}},
+                      {"spire", {SatelliteType::Spire, "#34D399"}},
 
                       // Communications
-                      {"geo", {SatelliteType::ActiveGeosynchronous, "aliceblue"}},
-                      {"intelsat", {SatelliteType::Intelsat, "aliceblue"}},
-                      {"ses", {SatelliteType::SES, "aliceblue"}},
-                      {"eutelsat", {SatelliteType::Eutelsat, "aliceblue"}},
-                      {"telesat", {SatelliteType::Telesat, "aliceblue"}},
-                      {"starlink", {SatelliteType::Starlink, "aliceblue"}},
-                      {"oneweb", {SatelliteType::OneWeb, "aliceblue"}},
-                      {"qianfan", {SatelliteType::Qianfan, "aliceblue"}},
-                      {"hulianwang", {SatelliteType::HulianwangDigui, "aliceblue"}},
-                      {"kuiper", {SatelliteType::Kuiper, "aliceblue"}},
-                      {"iridium-NEXT", {SatelliteType::IridiumNext, "aliceblue"}},
-                      {"orbcomm", {SatelliteType::Orbcomm, "aliceblue"}},
-                      {"globalstar", {SatelliteType::Globalstar, "aliceblue"}},
-                      {"amateur", {SatelliteType::AmateurRadio, "aliceblue"}},
-                      {"satnogs", {SatelliteType::SatNOGS, "aliceblue"}},
-                      {"x-comm", {SatelliteType::ExperimentalComm, "aliceblue"}},
-                      {"other-comm", {SatelliteType::OtherComm, "aliceblue"}},
+                      {"geo", {SatelliteType::ActiveGeosynchronous, "#38BDF8"}},
+                      {"intelsat", {SatelliteType::Intelsat, "#38BDF8"}},
+                      {"ses", {SatelliteType::SES, "#38BDF8"}},
+                      {"eutelsat", {SatelliteType::Eutelsat, "#38BDF8"}},
+                      {"telesat", {SatelliteType::Telesat, "#38BDF8"}},
+                      {"starlink", {SatelliteType::Starlink, "#38BDF8"}},
+                      {"oneweb", {SatelliteType::OneWeb, "#38BDF8"}},
+                      {"qianfan", {SatelliteType::Qianfan, "#38BDF8"}},
+                      {"hulianwang", {SatelliteType::HulianwangDigui, "#38BDF8"}},
+                      {"kuiper", {SatelliteType::Kuiper, "#38BDF8"}},
+                      {"iridium-NEXT", {SatelliteType::IridiumNext, "#38BDF8"}},
+                      {"orbcomm", {SatelliteType::Orbcomm, "#38BDF8"}},
+                      {"globalstar", {SatelliteType::Globalstar, "#38BDF8"}},
+                      {"amateur", {SatelliteType::AmateurRadio, "#38BDF8"}},
+                      {"satnogs", {SatelliteType::SatNOGS, "#38BDF8"}},
+                      {"x-comm", {SatelliteType::ExperimentalComm, "#38BDF8"}},
+                      {"other-comm", {SatelliteType::OtherComm, "#38BDF8"}},
 
                       // Navigation
-                      {"gnss", {SatelliteType::GNSS, "darkslateblue"}},
-                      {"gps-ops", {SatelliteType::GPS, "darkslateblue"}},
-                      {"glo-ops", {SatelliteType::GLONASS, "darkslateblue"}},
-                      {"galileo", {SatelliteType::Galileo, "darkslateblue"}},
-                      {"beidou", {SatelliteType::BeiDou, "darkslateblue"}},
-                      {"sbas", {SatelliteType::SatelliteBasedAugmentation, "darkslateblue"}},
+                      {"gnss", {SatelliteType::GNSS, "#A78BFA"}},
+                      {"gps-ops", {SatelliteType::GPS, "#A78BFA"}},
+                      {"glo-ops", {SatelliteType::GLONASS, "#A78BFA"}},
+                      {"galileo", {SatelliteType::Galileo, "#A78BFA"}},
+                      {"beidou", {SatelliteType::BeiDou, "#A78BFA"}},
+                      {"sbas", {SatelliteType::SatelliteBasedAugmentation, "#A78BFA"}},
 
                       // Science & Research
-                      {"science", {SatelliteType::SpaceAndEarthScience, "darkcyan"}},
-                      {"geodetic", {SatelliteType::Geodetic, "darkcyan"}},
-                      {"engineering", {SatelliteType::Engineering, "darkcyan"}},
-                      {"education", {SatelliteType::Education, "darkcyan"}},
+                      {"science", {SatelliteType::SpaceAndEarthScience, "#FBBF24"}},
+                      {"geodetic", {SatelliteType::Geodetic, "#FBBF24"}},
+                      {"engineering", {SatelliteType::Engineering, "#FBBF24"}},
+                      {"education", {SatelliteType::Education, "#FBBF24"}},
 
                       // Government & Miscellaneous
-                      {"military", {SatelliteType::MiscellaneousMilitary, "darkorchid"}},
-                      {"radar", {SatelliteType::RadarCalibration, "darkorchid"}},
-                      {"cubesat", {SatelliteType::CubeSats, "darkorchid"}}};
+                      {"military", {SatelliteType::MiscellaneousMilitary, "#FB7185"}},
+                      {"radar", {SatelliteType::RadarCalibration, "#FB7185"}},
+                      {"cubesat", {SatelliteType::CubeSats, "#FB7185"}}};
 
     startDate = std::time(nullptr);
 };
+
+std::vector<std::string> noradIDs;
 
 void Simulation::initializeSatelliteGroup(std::string group, std::string data)
 {
@@ -139,7 +141,11 @@ void Simulation::initializeSatelliteGroup(std::string group, std::string data)
             if (tleLine == 3)
             {
                 Satellite s = Satellite(currentName, groupType, colour, currentTLELine1, currentTLELine2);
-                sats.push_back(std::move(s));
+                if (std::find(noradIDs.begin(), noradIDs.end(), s.getNORAD()) == noradIDs.end())
+                {
+                    noradIDs.push_back(s.getNORAD());
+                    sats.push_back(std::move(s));
+                }
             }
 
             tleLine = (tleLine + 1 > 3) ? 1 : tleLine + 1;
@@ -241,6 +247,16 @@ std::vector<std::string> Simulation::getSatelliteGroups()
     return groups;
 }
 
+// 25544
+// 36086
+// 49044
+// 53239
+// 54216
+// 68319
+// 68689
+// 68837
+// 69049
+// 69180
 std::vector<SatelliteDTO> Simulation::getSatellitesDTO(std::string group, std::time_t startDate, double tSince)
 {
     SatelliteType groupType = std::get<0>(getSatelliteType(group));
@@ -328,6 +344,23 @@ SatelliteDetails getSpecificSatellite(std::string group, int index, double tSinc
     return simulation.getSatelliteGroup(group)[index].getDetails(simulation.getStartDate(), tSince);
 }
 
+std::vector<Position> getSatelliteTrajectory(std::string group, int index, double tSince)
+{
+    std::vector<Position> result;
+    Satellite &satellite = simulation.getSatelliteGroup(group)[index];
+
+    int start = 0;
+    float periodIncrement = 86400 / satellite.getMeanMotion() / 450;
+    for (int i = 0; i < 450; i++)
+    {
+        libsgp4::CoordGeodetic position = satellite.getCurrentPosition(simulation.getStartDate(), tSince);
+        result.push_back(Position(position.latitude, position.longitude, position.altitude));
+        tSince += periodIncrement;
+    }
+
+    return result;
+}
+
 std::vector<std::string> getSatelliteTypes(std::string group)
 {
     return simulation.getSatelliteTypes(group);
@@ -341,25 +374,31 @@ std::vector<int> getSatelliteTypeInts(std::string group)
 std::string getSatelliteGroupColour(std::string group)
 {
     if (group == "Earth Observation")
-        return "blue";
+        return "#34D399";
 
     if (group == "Communication")
-        return "aliceblue";
+        return "#38BDF8";
 
     if (group == "Navigation")
-        return "darkslateblue";
+        return "#A78BFA";
 
     if (group == "Science & Research")
-        return "darkcyan";
+        return "#FBBF24";
 
     if (group == "Miscellaneous")
-        return "darkorchid";
+        return "#FB7185";
 }
 
 EMSCRIPTEN_BINDINGS(my_module)
 {
+    emscripten::value_object<Position>("Position")
+        .field("lat", &Position::lat)
+        .field("lon", &Position::lon)
+        .field("alt", &Position::alt);
+
     emscripten::value_object<SatelliteDTO>("SatelliteDTO")
         .field("name", &SatelliteDTO::name)
+        .field("NORAD", &SatelliteDTO::NORAD)
         .field("colour", &SatelliteDTO::colour)
         .field("lat", &SatelliteDTO::lat)
         .field("lon", &SatelliteDTO::lon)
@@ -367,6 +406,12 @@ EMSCRIPTEN_BINDINGS(my_module)
 
     emscripten::value_object<SatelliteDetails>("SatelliteDetails")
         .field("name", &SatelliteDetails::name)
+        .field("tleData", &SatelliteDetails::tleData)
+        .field("tleAge", &SatelliteDetails::tleAge)
+        .field("tleAccuracy", &SatelliteDetails::tleAccuracy)
+        .field("tleAgeColour", &SatelliteDetails::tleAgeColour)
+        .field("group", &SatelliteDetails::group)
+        .field("type", &SatelliteDetails::type)
         .field("colour", &SatelliteDetails::colour)
         .field("epoch", &SatelliteDetails::epoch)
         .field("designator", &SatelliteDetails::designator)
@@ -388,7 +433,7 @@ EMSCRIPTEN_BINDINGS(my_module)
         .field("bSTAR", &SatelliteDetails::bSTAR)
 
         .field("inclination", &SatelliteDetails::inclination)
-        .field("RAN", &SatelliteDetails::RAN)
+        .field("RAAN", &SatelliteDetails::RAAN)
         .field("eccentricity", &SatelliteDetails::eccentricity)
         .field("argumentPerigee", &SatelliteDetails::argumentPerigee)
         .field("meanAnomaly", &SatelliteDetails::meanAnomaly);
@@ -400,6 +445,8 @@ EMSCRIPTEN_BINDINGS(my_module)
     emscripten::function("getSatellitesDTO", &getSatellitesDTO);
     emscripten::function("getSatellitesNum", &getSatellitesNum);
     emscripten::function("getSpecificSatellite", &getSpecificSatellite);
+    emscripten::register_vector<Position>("VectorTrajectory");
+    emscripten::function("getSatelliteTrajectory", &getSatelliteTrajectory);
     emscripten::function("getSatelliteTypes", &getSatelliteTypes);
     emscripten::register_vector<int>("SatelliteNums");
     emscripten::function("getSatelliteTypeInts", &getSatelliteTypeInts);

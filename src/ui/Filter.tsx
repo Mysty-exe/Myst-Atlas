@@ -1,14 +1,12 @@
-import { useEffect, useRef, useState, type RefObject } from "react";
+import '../styles/Filter.css';
+import { useContext, useEffect, useRef, useState } from "react";
 import Group from "./Group";
+import { AppContext } from "../App";
 
 const groupNames = [
   "Earth Observation", "Communication", "Navigation", "Science & Research", "Miscellaneous"
 ]
 
-interface FilterProps {
-  groups: RefObject<Map<any, any>>,
-  workerRef: RefObject<any>;
-}
 
 const onClick = (groups, workerRef) => {
   groupNames.forEach(group => {
@@ -24,10 +22,11 @@ const onClick = (groups, workerRef) => {
   });
 };
 
-function Filter({ groups, workerRef }: FilterProps) {
-  const [collapsed, setCollapsed] = useState(false);
+function Filter() {
+  const context = useContext(AppContext);
+  const [collapsed, setCollapsed] = useState(true);
 
-  if (!groups || !groups.current)
+  if (!context.filterRef.current)
     return <></>
 
   const total = useRef(0);
@@ -35,7 +34,7 @@ function Filter({ groups, workerRef }: FilterProps) {
   useEffect(() => {
     if (total.current == 0) {
       groupNames.forEach(group => {
-        total.current += groups.current.get(group)[0][2];        
+        total.current += context.filterRef.current.get(group)[0][2];        
       });
     }
   }, []);
@@ -47,21 +46,34 @@ function Filter({ groups, workerRef }: FilterProps) {
               <h3>Satellites</h3>
 
               <div className="filter-actions">
-                  <button onClick={() => onClick(groups, workerRef)}>
+                  <button onClick={() => {
+                    onClick(context.filterRef, context.workerRef)
+                    context.resetFilterRef.current = true;
+                  }}>
                   Toggle All - {total.current}</button>
               </div>
           </div>
 
           <div className="category">
 
-            {groupNames.map((name, i) => <Group key={i} name={name} types={groups} workerRef={workerRef}/>)}
+            {groupNames.map((name, i) => <Group key={i} name={name} />)}
 
           </div>
       </div>
 
     <button
         className="collapse-button"
-        onClick={() => setCollapsed(!collapsed)}
+        onClick={() => {
+          if (!collapsed) {
+            groupNames.map(name => {
+              let currentList = context.filterRef.current.get(name);
+            currentList.forEach((type: any[]) => {
+              type[5] = false;
+            });
+            })
+          }
+          setCollapsed(!collapsed)
+        }}
       >
         {collapsed ? "❯" : "❮"}
     </button>

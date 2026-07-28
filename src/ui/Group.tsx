@@ -1,9 +1,10 @@
-import type { RefObject } from "react";
+import '../styles/Filter.css';
+
+import { useContext, type RefObject } from "react";
+import { AppContext } from "../App";
 
 interface GroupProps {
     name: string,
-    types: RefObject<Map<any, any>>,
-    workerRef: RefObject<any>
 }
 
 const onExpand = (name:string, types: RefObject<Map<any, any>>) => {
@@ -24,24 +25,28 @@ const onChange = (name:string, types: RefObject<Map<any, any>>, i: number, worke
     });
 }
 
-function Group({ name, types, workerRef }: GroupProps) {
+function Group({ name }: GroupProps) {
+  const context = useContext(AppContext);
 
-  if (!types.current) return <></>;
+  if (!context.filterRef.current) return <></>;
 
   return (
     <div className="category">
 
-        <div className="category-header" style={{ color: types.current.get(name)[0][1] }}>
-            <span onClick={() => onExpand(name, types)}> {types.current.get(name)[0][5] ? <>▼ {name}</> : <>▶ {name}</>}</span>
-            <span className="count">{types.current.get(name)[0][2]}</span>
+        <div className="category-header" onClick={() => onExpand(name, context.filterRef)} style={{ color: context.filterRef.current.get(name)[0][1] }}>
+            <span> {context.filterRef.current.get(name)[0][5] ? <>▼ {name}</> : <>▶ {name}</>}</span>
+            <span className="count">{context.filterRef.current.get(name)[0][2]}</span>
         </div>
 
-        {types.current.get(name)[0][5] &&
+        {context.filterRef.current.get(name)[0][5] &&
             <div className="category-items">
-                {types.current.get(name).map((type, i) => 
+                {context.filterRef.current.get(name).map((type, i) => 
                     <label className="filter-item" key={i}>
                         <input type="checkbox" style={{ accentColor: type[1] }} checked={type[4]} 
-                        onChange={() => onChange(name, types, i, workerRef)}/>
+                        onChange={() => {
+                            onChange(name, context.filterRef, i, context.workerRef)
+                                context.resetFilterRef.current = true;
+                            }}/>
                         {type[0]}
                         <span>{type[3]}</span>
                     </label>

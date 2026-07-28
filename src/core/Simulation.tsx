@@ -3,18 +3,14 @@ import SatelliteGroup from "../rendering/SatelliteMesh";
 import EarthMesh, { earth } from "../rendering/EarthMesh";
 import { OrbitControls } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber"
-import { Suspense, useEffect, useRef, type RefObject } from "react";
+import { Suspense, useContext, useEffect, useRef } from "react";
 import Skybox from "../rendering/Skymap";
+import { AppContext } from "../App";
 
-interface SimulationProps {
-    workerRef: RefObject<any>
-    satellitesRef: RefObject<any>
-    tSinceRef: RefObject<any>
-    timeRateRef: RefObject<any>
-}
-
-const Scene = ({ satellitesRef, tSinceRef, timeRateRef, workerRef }: SimulationProps) => {
+const Scene = () => {
+        const context = useContext(AppContext)
         const scene = useRef(null);
+        const startRotation = useRef(0);
 
         useEffect(() => {
             if (scene.current) {
@@ -26,25 +22,20 @@ const Scene = ({ satellitesRef, tSinceRef, timeRateRef, workerRef }: SimulationP
 
                 const longitude = (utcHours - 12) * 15;
 
-                scene.current.rotation.y = (-180 + longitude) * Math.PI / 180;
+                startRotation.current = (-180 + longitude) * Math.PI / 180;
             }
         }, []);
 
         useFrame((_, delta) => {
-            tSinceRef.current += timeRateRef.current * delta;
+            context.tSinceRef.current += context.timeRate * delta;
 
-            workerRef.current.postMessage({
+            context.workerRef.current.postMessage({
                 type: "setTimeRate",
-                tSince: tSinceRef.current
+                tSince: context.tSinceRef.current
             });
 
-            workerRef.current.postMessage({
-                type: "getSatellite",
-                index: 150
-            });
-
-            const earthRotationSpeed = (2 * Math.PI) / (23 * 56 * 60);
-            scene.current.rotation.y += delta * earthRotationSpeed * timeRateRef.current;
+            const rotation = startRotation.current + (2 * Math.PI) * (context.tSinceRef.current / (86400 - 240));
+            scene.current.rotation.y = ((rotation % (2 * Math.PI)) + (2 * Math.PI)) % (2 * Math.PI);
         });
 
     return (
@@ -52,22 +43,22 @@ const Scene = ({ satellitesRef, tSinceRef, timeRateRef, workerRef }: SimulationP
             <group rotation={[earth.tilt * Math.PI / 180, 0, 0]}>
                 <group ref={scene} rotation={[0, 0, 0]}>
                     <EarthMesh />
-                    <SatelliteGroup satellitesRef={satellitesRef} />
+                    <SatelliteGroup />
                 </group>
             </group>
         </>
     )
 }
 
-function Simulation({ satellitesRef, tSinceRef, timeRateRef, workerRef }: SimulationProps) {
+function Simulation() {
     return (
         <>
-            <OrbitControls minDistance={earth.radius + 2} maxDistance={600}/>
-            <Sun timeRateRef={timeRateRef} />
-            <ambientLight intensity={0.1} />
+            <OrbitControls minDistance={earth.radius + 2} maxDistance={5000}/>
+            <Sun />
+            <ambientLight intensity={0.3} />
             <Suspense fallback={null}>
                 <Skybox />
-                <Scene satellitesRef={satellitesRef} tSinceRef={tSinceRef} timeRateRef={timeRateRef} workerRef={workerRef} />
+                <Scene />
             </Suspense>
         </>
     )

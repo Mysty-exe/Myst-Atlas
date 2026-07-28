@@ -7,12 +7,12 @@ function Skybox() {
 
   const texture = useCubeTexture(
     [
-            "right.png",
-            "left.png",
-            "top.png",
-            "bottom.png",
-            "front.png",
-            "back.png"
+            "right.jpg",
+            "left.jpg",
+            "top.jpg",
+            "bottom.jpg",
+            "front.jpg",
+            "back.jpg"
         ],
         {
             path: "/Skybox/"
