@@ -1,7 +1,9 @@
 // @ts-ignore
-import createModule from '../../public/wasm/SatelliteCoverage.js';
+import createModule from '../wasm/SatelliteCoverage.js';
 import type { Satellite } from '../rendering/SatelliteMesh.js';
 import { loadTLE, getTLE } from "./db.js";
+
+let Module: any;
 
 export interface Location {
     city: string,
@@ -14,14 +16,17 @@ const groupNames = [
   "Earth Observation", "Communication", "Navigation", "Science & Research", "Miscellaneous"
 ]
 
-let Module: any;
 let allGroups: string[];
 let satelliteGroups: string[];
 let tSince: number;
 let running = false;
 
 async function start(t: number) {
-    Module = await createModule();
+    if (!Module) {
+        Module = await createModule({
+            locateFile: (file: string) => `/wasm/${file}`
+        });
+    }
 
     const arr = Module.getSatelliteGroups();
     allGroups = [];
