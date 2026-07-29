@@ -1,5 +1,5 @@
 // @ts-ignore
-import createModule from '../wasm/SatelliteCoverage.js';
+import createModule from '../../public/wasm/SatelliteCoverage.js';
 import type { Satellite } from '../rendering/SatelliteMesh.js';
 import { loadTLE, getTLE } from "./db.js";
 
