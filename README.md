@@ -51,7 +51,7 @@ WebAssembly bindings
 
 ## Live Demo
 
-Try Myst Atlas here: https://myst-atlas.com
+Try Myst Atlas here: https://myst-atlas.vercel.app/
 
 ## Possible Future Work
 
