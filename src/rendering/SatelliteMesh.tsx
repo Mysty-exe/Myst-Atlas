@@ -1,9 +1,19 @@
-import { useContext, useRef } from "react";
-import { BackSide, Color, InstancedMesh, Mesh, Object3D, Ray, Sphere, Vector3 } from "three";
+import { useContext, useRef, type RefObject } from "react";
+import { BackSide, Camera, Color, InstancedMesh, Mesh, Object3D, Ray, Sphere, Vector3 } from "three";
 import { earth } from "./EarthMesh";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Line } from "@react-three/drei";
 import { AppContext } from "../App";
+
+export interface Satellite {
+    name: string,
+    type: string,
+    colour: string;
+    NORAD: number,
+    lat: number,
+    lon: number,
+    alt: number
+}
 
 export const getPosition = (lat: number, lon: number, alt: number) => {
     const start = earth.radius + 25 + (alt / 50);
@@ -15,7 +25,9 @@ export const getPosition = (lat: number, lon: number, alt: number) => {
     );
 }
 
-const satelliteInView = (mesh, cameraPos, sat) => {
+const satelliteInView = (mesh: RefObject<InstancedMesh | null>, cameraPos: Vector3, sat: Satellite) => {
+    if (!mesh.current) {return;}
+    
     const satPos = getPosition(sat.lat, sat.lon, sat.alt);
     const worldPos = satPos.clone();
     mesh.current.localToWorld(worldPos);
@@ -38,7 +50,9 @@ const satelliteInView = (mesh, cameraPos, sat) => {
     else return true
 }
 
-const goToSatellite = (mesh, camera, sat, doneMovingCam) => {
+const goToSatellite = (mesh: RefObject<InstancedMesh | null>, camera: Camera, sat: Satellite, doneMovingCam: RefObject<boolean>) => {
+    if (!mesh.current) {return;}
+
     const satPos = getPosition(sat.lat, sat.lon, sat.alt);
 
     const worldPos = satPos.clone();
@@ -51,7 +65,9 @@ const goToSatellite = (mesh, camera, sat, doneMovingCam) => {
         doneMovingCam.current = true;
 }
 
-const followSat = (mesh, camera, sat) => {
+const followSat = (mesh: RefObject<InstancedMesh| null>, camera: Camera, sat: Satellite) => {
+    if (!mesh.current) {return;}
+    
     const satPos = getPosition(sat.lat, sat.lon, sat.alt);
 
     const worldPos = satPos.clone();
@@ -65,22 +81,26 @@ function SatelliteGroup() {
     const context = useContext(AppContext)
 
     const { camera } = useThree();
-    const hoveredSats = useRef([]);
-    const clickedSatellites = useRef([]);
+    const hoveredSats = useRef<number[]>([]);
+    const clickedSatellites = useRef<number[]>([]);
     const trajectoryDirectionRef = useRef(new Vector3());
     const meshRef = useRef<InstancedMesh>(null);
     const hoverMesh = useRef<Mesh>(null!);
     const dummy = new Object3D();
     const locationTimer = useRef(2);
 
-    useFrame((state, delta) => {
+    useFrame((_, delta) => {
         if (!meshRef.current) return;
+        if (!context) return;
 
         if (context.followSatellite.current && context.selectedSatelliteIndex.current.length == 1)
             followSat(meshRef, camera, context.satellitesRef.current[context.selectedSatelliteIndex.current[0]]);
 
-        if (context.trajectoryRef.current)
-            trajectoryDirectionRef.current = (getPosition(context.trajectoryRef.current.at(-1).lat, context.trajectoryRef.current.at(-1).lon, context.trajectoryRef.current.at(-1).alt).sub(getPosition(context.trajectoryRef.current.at(-2).lat, context.trajectoryRef.current.at(-2).lon, context.trajectoryRef.current.at(-2).alt))).normalize();
+        if (context.trajectoryRef.current) {
+            const loc1: Satellite = context.trajectoryRef.current.at!(-1)!;
+            const loc2: Satellite = context.trajectoryRef.current.at!(-2)!;
+            trajectoryDirectionRef.current = (getPosition(loc1.lat, loc1.lon, loc1.alt).sub(getPosition(loc2.lat, loc2.lon, loc2.alt))).normalize();
+        }
 
         if (clickedSatellites.current.length > 0) {
             if (clickedSatellites.current[0] != context.selectedSatelliteIndex.current[0]) {
@@ -99,27 +119,29 @@ function SatelliteGroup() {
         {
             locationTimer.current += delta;
 
-            context.workerRef.current.postMessage({
-                type: "getSatellite",
-                index: context.selectedSatelliteIndex.current[0]
-            });
-
-            context.workerRef.current.postMessage({
-                type: "getTrajectory",
-                index: context.selectedSatelliteIndex.current[0]
-            });
-
-            if (locationTimer.current > 5 && context.trajectoryRef.current)
-            {
+            if (context.workerRef.current) {
                 context.workerRef.current.postMessage({
-                    type: "getSatelliteLocation",
-                    index: context.selectedSatelliteIndex.current[0],
-                    points: [context.satellitesRef.current[context.selectedSatelliteIndex.current[0]],
-                            context.trajectoryRef.current.at(150),
-                            context.trajectoryRef.current.at(300),
-                            context.trajectoryRef.current.at(-1)]
+                    type: "getSatellite",
+                    index: context.selectedSatelliteIndex.current[0]
                 });
-                locationTimer.current = 0;
+
+                context.workerRef.current.postMessage({
+                    type: "getTrajectory",
+                    index: context.selectedSatelliteIndex.current[0]
+                });
+
+                if (locationTimer.current > 5 && context.trajectoryRef.current)
+                {
+                    context.workerRef.current.postMessage({
+                        type: "getSatelliteLocation",
+                        index: context.selectedSatelliteIndex.current[0],
+                        points: [context.satellitesRef.current[context.selectedSatelliteIndex.current[0]],
+                                context.trajectoryRef.current.at(150),
+                                context.trajectoryRef.current.at(300),
+                                context.trajectoryRef.current.at(-1)]
+                    });
+                    locationTimer.current = 0;
+                }
             }
         } else {
             context.trajectoryRef.current = null;
@@ -145,7 +167,6 @@ function SatelliteGroup() {
         const satellites = context.satellitesRef.current;
         meshRef.current.count = satellites.length;
 
-        let closest = hoveredSats.current[0];
         let closestDist = Infinity;
 
         for (const i of hoveredSats.current) {
@@ -157,8 +178,6 @@ function SatelliteGroup() {
 
             if (dist < closestDist) {
                 closestDist = dist;
-                closest = i;
-                    
             }
         }
 
@@ -208,10 +227,14 @@ function SatelliteGroup() {
         meshRef.current.updateMatrixWorld(true);
     });
 
+    if (!context) return;
+
     return (
         <>
         <instancedMesh ref={meshRef}
         onPointerOver={(e) => {
+            if (!context) return;
+            if (e.instanceId === undefined) return;
             if (!satelliteInView(meshRef, camera.position, context.satellitesRef.current[e.instanceId])) return
             hoveredSats.current.push(e.instanceId);
         }}
@@ -219,6 +242,8 @@ function SatelliteGroup() {
             hoveredSats.current = hoveredSats.current.filter(item => item !== e.instanceId);
         }}
         onClick={(e) => {
+            if (!context) return;
+            if (e.instanceId === undefined) return;
             if (!satelliteInView(meshRef, camera.position, context.satellitesRef.current[e.instanceId])) return
             clickedSatellites.current.push(e.instanceId);
             context.doneMovingCam.current = false;
@@ -250,7 +275,7 @@ function SatelliteGroup() {
         {context.showOrbit && (context.selectedSatelliteIndex.current.length == 1 && context.trajectoryRef.current) && <arrowHelper
             args={[
                 trajectoryDirectionRef.current,
-                getPosition(context.trajectoryRef.current.at(-1).lat, context.trajectoryRef.current.at(-1).lon, context.trajectoryRef.current.at(-1).alt),
+                getPosition(context.trajectoryRef.current.at(-1)!.lat, context.trajectoryRef.current.at(-1)!.lon, context.trajectoryRef.current.at(-1)!.alt),
                 2,
                 "white",
                 5,

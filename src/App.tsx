@@ -1,31 +1,58 @@
 import './styles/App.css';
 import Simulation from './core/Simulation.js';
-import React, { useEffect, useRef, useState } from 'react';
+import { createContext, useEffect, useRef, useState, type Dispatch, type RefObject, type SetStateAction } from 'react';
 import LoadingScreen from './core/LoadingScreen.js';
 import { Canvas } from '@react-three/fiber';
 import UI from './ui/UIOverlay.js';
+import type { Satellite } from './rendering/SatelliteMesh.js';
+import type { Location } from './database/loadData.js';
 
-type Satellite = {
-    name: string;
-    colour: string;
-    lat: number;
-    lon: number;
-    alt: number;
-};
+interface AppContextType {
+    startAppDate: RefObject<Date>;
+    currentDate: Date;
 
-export const AppContext = React.createContext()
+    satellitesRef: RefObject<Satellite[]>;
+    workerRef: RefObject<Worker | null>;
+    tSinceRef: RefObject<number>;
+
+    timeRate: number;
+    setTimeRate: Dispatch<SetStateAction<number>>;
+
+    filterRef: RefObject<Map<string, any[][]>>;
+
+    selectedSatellite: Satellite | null;
+    setSelectedSatellite: Dispatch<SetStateAction<Satellite | null>>;
+
+    selectedLocation: Location[] | null;
+    setSelectedLocation: Dispatch<SetStateAction<Location[] | null>>;
+
+    selectedSatelliteIndex: RefObject<number[]>;
+
+    trajectoryRef: RefObject<Satellite[] | null>;
+
+    resetFilterRef: RefObject<boolean>;
+
+    doneMovingCam: RefObject<boolean>;
+
+    followSatellite: RefObject<boolean>;
+
+    showOrbit: boolean;
+    setShowOrbit: Dispatch<SetStateAction<boolean>>;
+}
+
+export const AppContext = createContext<AppContextType | null>(null);
 
 function App() {
   const startAppDate = useRef(new Date());
   const [currentDate, setCurrentDate] = useState(new Date());
   const [loaded, setLoaded] = useState(false);
   const satellitesRef = useRef<Satellite[]>([]);
-  const workerRef = useRef(null);
+  const workerRef = useRef<Worker | null>(null);
   const tSinceRef = useRef(1);
   const [timeRate, setTimeRate] = useState(1);
   const filterRef = useRef(new Map());
-  const [selectedSatellite, setSelectedSatellite] = useState(null);
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [selectedSatellite, setSelectedSatellite] = useState<Satellite | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState<Location[] | null>(null);
   const selectedSatelliteIndex = useRef([]);
   const trajectoryRef = useRef(null);
   const resetFilterRef = useRef(false);

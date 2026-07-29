@@ -2,11 +2,12 @@ import '../styles/Topbar.css';
 import { useContext, useState } from "react";
 import TimeControls from "./TimeControls";
 import { AppContext } from "../App";
+import type { Satellite } from '../rendering/SatelliteMesh';
 
 function Topbar() {
   const context = useContext(AppContext);
   const [search, setSearch] = useState("");
-  const [filteredSatellites, setFilteredSatellites] = useState([]);
+  const [filteredSatellites, setFilteredSatellites] = useState<any[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [showTime, setShowTime] = useState(false);
 
@@ -35,8 +36,9 @@ function Topbar() {
                     onChange={e => {
                         setSearch(e.target.value)
 
-                        let filter = [];
-                        context.satellitesRef.current.map((sat, i) => {
+                        let filter: any[] = [];
+                        if (!context) return;
+                        context.satellitesRef.current.map((sat: Satellite, i) => {
                             if (sat.name.toLowerCase().includes(e.target.value.toLowerCase()) || sat.NORAD.toString().includes(e.target.value)) {
                                 filter.push([sat, i]);
                             }
@@ -55,12 +57,13 @@ function Topbar() {
 
                     <div className="results-list">
 
-                        {filteredSatellites.slice(0, MAX_RESULTS).map((sat, i) => (
+                        {filteredSatellites.slice(0, MAX_RESULTS).map((sat: any[], i: number) => (
                             <div
                                 className="search-result"
                                 key={i}
                                 onMouseDown={() => {
                                     setSearch("");
+                                    if (!context) return;
                                     context.selectedSatelliteIndex.current = [sat[1]];
                                     context.doneMovingCam.current = false;
                                     context.setTimeRate(1);
@@ -96,7 +99,7 @@ function Topbar() {
             <div className="time" onClick={() => {
               setShowTime(!showTime);
           }}>
-                {context.currentDate.toLocaleString()}
+                {(context) ? context.currentDate.toLocaleString() : "Loading Date..."}
             </div>
 
           <TimeControls showTime={showTime} setShowTime={setShowTime} />

@@ -12,18 +12,20 @@ function TimeControls({ showTime, setShowTime }: TimeControlsProps) {
     const [quickSpeed, setQuickSpeed] = useState(-1);
 
     const setQuickSpeedFunc = (num: number) => {
+        if (!context) return;
         context.setTimeRate(num);
         setQuickSpeed(num);
     }
 
     useEffect(() => {
         setQuickSpeed(-1);
+        if (!context) return;
         if (context.timeRate == -1000 || context.timeRate == -10 || context.timeRate == 1 || context.timeRate == 10 || context.timeRate == 1000)
             setQuickSpeed(context.timeRate);
-    }, [context.timeRate])
+    }, [context ? context.timeRate : []])
 
     return (
-        <div className={`time-popup ${showTime ? "open" : ""} ${context.selectedSatellite ? "move" : ""}`}>
+        <div className={`time-popup ${showTime ? "open" : ""} ${((context) ? context.selectedSatellite : false) ? "move" : ""}`}>
 
             <div className="time-header">
                 <h3>Simulation Time</h3>
@@ -36,12 +38,13 @@ function TimeControls({ showTime, setShowTime }: TimeControlsProps) {
             </div>
 
             <div className="current-time">
-                <div className="date">{context.currentDate.toLocaleDateString()}</div>
-                <div className="clock">{context.currentDate.toLocaleTimeString()}</div>
+                <div className="date">{(context) ? context.currentDate.toLocaleDateString() : "Loading Date..."}</div>
+                <div className="clock">{(context) ? context.currentDate.toLocaleTimeString() : "Loading Time..."}</div>
             </div>
 
             <button className="reset-button"
             onClick={() => {
+                if (!context) return;
                 const currentTime = new Date();
                 context.tSinceRef.current = (currentTime.getTime() - context.startAppDate.current.getTime()) / 1000;
             }}>
@@ -54,8 +57,8 @@ function TimeControls({ showTime, setShowTime }: TimeControlsProps) {
 
                 <input type="datetime-local"
                     onChange={e => {
+                        if (!context) return;
                         const selectedDate = new Date(e.target.value);
-                        console.log("DFSDFJK")
                         context.tSinceRef.current = (selectedDate.getTime() - context.startAppDate.current.getTime()) / 1000;
                     }}
                 />
@@ -71,14 +74,15 @@ function TimeControls({ showTime, setShowTime }: TimeControlsProps) {
                         type="number"
                         min="-1000000"
                         max="1000000"
-                        value={context.timeRate}
+                        value={(context) ? context.timeRate : 1}
                         onChange={e => {
-                            context.setTimeRate(e.target.value);
+                            if (!context) return;
+                            context.setTimeRate(e.target.valueAsNumber);
                             setQuickSpeed(-1);
-                            if (e.target.value == -1000 || e.target.value == -10 || e.target.value == 1 || e.target.value == 10 || e.target.value == 1000)
-                                setQuickSpeed(e.target.value);
+                            if (e.target.valueAsNumber == -1000 || e.target.valueAsNumber == -10 || e.target.valueAsNumber == 1 || e.target.valueAsNumber == 10 || e.target.valueAsNumber == 1000)
+                                setQuickSpeed(e.target.valueAsNumber);
 
-                            if (e.target.value <= -100 || e.target.value >= 100)
+                            if (e.target.valueAsNumber <= -100 || e.target.valueAsNumber >= 100)
                                 context.followSatellite.current = false;
                         }}
                     />

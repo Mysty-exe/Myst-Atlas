@@ -1,5 +1,5 @@
 import '../styles/Filter.css';
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState, type RefObject } from "react";
 import Group from "./Group";
 import { AppContext } from "../App";
 
@@ -8,9 +8,9 @@ const groupNames = [
 ]
 
 
-const onClick = (groups, workerRef) => {
+const onClick = (groups: RefObject<Map<string, any[][]>>, workerRef: any) => {
   groupNames.forEach(group => {
-    let groupTypes  = groups.current.get(group);
+    let groupTypes: any[]  = groups.current.get(group)!;
     groupTypes.forEach((type: any[]) => {
       type[4] = true;
     });
@@ -26,6 +26,7 @@ function Filter() {
   const context = useContext(AppContext);
   const [collapsed, setCollapsed] = useState(true);
 
+  if (!context) return;
   if (!context.filterRef.current)
     return <></>
 
@@ -34,7 +35,7 @@ function Filter() {
   useEffect(() => {
     if (total.current == 0) {
       groupNames.forEach(group => {
-        total.current += context.filterRef.current.get(group)[0][2];        
+        total.current += context.filterRef.current.get(group)![0][2];        
       });
     }
   }, []);
@@ -47,6 +48,7 @@ function Filter() {
 
               <div className="filter-actions">
                   <button onClick={() => {
+                    if (!context) return;
                     onClick(context.filterRef, context.workerRef)
                     context.resetFilterRef.current = true;
                   }}>
@@ -66,7 +68,7 @@ function Filter() {
         onClick={() => {
           if (!collapsed) {
             groupNames.map(name => {
-              let currentList = context.filterRef.current.get(name);
+              let currentList: any[] = context.filterRef.current.get(name)!;
             currentList.forEach((type: any[]) => {
               type[5] = false;
             });

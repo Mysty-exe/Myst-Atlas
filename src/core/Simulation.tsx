@@ -6,10 +6,11 @@ import { useFrame } from "@react-three/fiber"
 import { Suspense, useContext, useEffect, useRef } from "react";
 import Skybox from "../rendering/Skymap";
 import { AppContext } from "../App";
+import { Group, type Object3DEventMap } from "three";
 
 const Scene = () => {
         const context = useContext(AppContext)
-        const scene = useRef(null);
+        const scene = useRef<Group<Object3DEventMap> | null>(null);
         const startRotation = useRef(0);
 
         useEffect(() => {
@@ -27,15 +28,22 @@ const Scene = () => {
         }, []);
 
         useFrame((_, delta) => {
+            if (!context)
+                return;
+            
             context.tSinceRef.current += context.timeRate * delta;
 
-            context.workerRef.current.postMessage({
-                type: "setTimeRate",
-                tSince: context.tSinceRef.current
-            });
+            if (context.workerRef.current) {
+                context.workerRef.current.postMessage({
+                    type: "setTimeRate",
+                    tSince: context.tSinceRef.current
+                });
+            }
 
-            const rotation = startRotation.current + (2 * Math.PI) * (context.tSinceRef.current / (86400 - 240));
-            scene.current.rotation.y = ((rotation % (2 * Math.PI)) + (2 * Math.PI)) % (2 * Math.PI);
+            if (scene.current) {
+                const rotation = startRotation.current + (2 * Math.PI) * (context.tSinceRef.current / (86400 - 240));
+                scene.current.rotation.y = ((rotation % (2 * Math.PI)) + (2 * Math.PI)) % (2 * Math.PI);
+            }
         });
 
     return (

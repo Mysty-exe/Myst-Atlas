@@ -1,14 +1,23 @@
 // @ts-ignore
 import createModule from '../wasm/SatelliteCoverage.js';
+import type { Satellite } from '../rendering/SatelliteMesh.js';
 import { loadTLE, getTLE } from "./db.js";
+
+export interface Location {
+    city: string,
+    state: string,
+    country: string,
+    ocean: string
+}
 
 const groupNames = [
   "Earth Observation", "Communication", "Navigation", "Science & Research", "Miscellaneous"
 ]
-let Module;
-let allGroups;
-let satelliteGroups;
-let tSince;
+
+let Module: any;
+let allGroups: string[];
+let satelliteGroups: string[];
+let tSince: number;
 let running = false;
 
 async function start(t: number) {
@@ -104,13 +113,14 @@ function filterTypes() {
     });
 }
 
-function updateGroups(groups) {
+function updateGroups(groups: Map<string, []>) {
     let i = 0;
 
     satelliteGroups.length = 0;
     groupNames.forEach(name => {
-        const groupTypes = groups.get(name);
-        groupTypes.forEach(type => {
+        const groupTypes: (any[] | undefined) = groups.get(name);
+        if (!groupTypes) return;
+        groupTypes.forEach((type: number[]) => {
             if (type[4]) {
                 satelliteGroups.push(allGroups[i])
             };
@@ -180,7 +190,7 @@ function getTrajectory(index: number)
     }
 }
 
-async function getSatelliteLocation(index, points) {
+async function getSatelliteLocation(index: number, points: Satellite[]) {
     const locations = [];
 
     for (const point of points) {

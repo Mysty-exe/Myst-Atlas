@@ -2,6 +2,8 @@ import { useContext, useState } from 'react';
 import '../styles/Panel.css';
 import { AppContext } from '../App';
 import { createPortal } from 'react-dom';
+import type { Satellite } from '../rendering/SatelliteMesh';
+import type { Location } from '../database/loadData';
 
 async function copyToClipboard(text: string) {
   try {
@@ -11,7 +13,7 @@ async function copyToClipboard(text: string) {
   }
 }
 
-function getDirection(current, next) {
+function getDirection(current: Satellite, next: Satellite) {
     const dLat = next.lat - current.lat;
     const dLon = next.lon - current.lon;
 
@@ -26,7 +28,7 @@ function getDirection(current, next) {
     return direction || "Stationary";
 }
 
-function getLocationStr(loc) {
+function getLocationStr(loc: Location) {
     if (loc.city && loc.state)
         return loc.city + " " + loc.state + ", " + loc.country;
     if (loc.city)
@@ -90,15 +92,8 @@ function DetailsPanel() {
     const context = useContext(AppContext);
     const [state, setState] = useState("TLE");
 
-    // if (context.selectedSatelliteIndex.current.length > 1) {
-    //     return (
-    //         <div className={`satellite-panel open`}>
-                
-    //         </div>
-    //     )
-    // }
-
-    const satellite = context.selectedSatellite;
+    if (!context) return;
+    const satellite: any = context.selectedSatellite;
 
     return (
         <div className={`satellite-panel ${context.selectedSatelliteIndex.current.length > 0 ? "open" : ""}`}>
@@ -131,8 +126,7 @@ function DetailsPanel() {
 
                         <div className="satellite-options">
 
-                            {context.selectedSatelliteIndex.current.map((sat) => (
-
+                            {context.selectedSatelliteIndex.current.map((sat: any) => (
                                 <button
                                     className="satellite-option"
                                     key={sat.NORAD}
@@ -338,7 +332,7 @@ function DetailsPanel() {
 
             </div>}
 
-            {state == "Tracking" &&
+            {(state == "Tracking" && context.trajectoryRef.current) &&
                 <div className="panel-content">
 
                     <div className="info-section">
@@ -454,9 +448,12 @@ function DetailsPanel() {
                 ><b>Show Orbit</b></button>
                 <button onClick={e => {
                     copyToClipboard(satellite.tleData)
-                    e.target.innerHTML = "<b>Copied!</b>";
+
+                    const button = e.currentTarget;
+
+                    button.innerHTML = "<b>Copied!</b>";
                     setTimeout(() => {
-                        e.target.innerHTML = "<b>Copy TLE</b>";
+                        button.innerHTML = "<b>Copy TLE</b>";
                     }, 1500);
                     }}
                     ><b>Copy TLE</b></button>

@@ -28,19 +28,22 @@ const onChange = (name:string, types: RefObject<Map<any, any>>, i: number, worke
 function Group({ name }: GroupProps) {
   const context = useContext(AppContext);
 
+  if (!context) return;
   if (!context.filterRef.current) return <></>;
+  if (context.filterRef.current.get(name) === undefined) return <></>;
+  
 
   return (
     <div className="category">
 
-        <div className="category-header" onClick={() => onExpand(name, context.filterRef)} style={{ color: context.filterRef.current.get(name)[0][1] }}>
-            <span> {context.filterRef.current.get(name)[0][5] ? <>▼ {name}</> : <>▶ {name}</>}</span>
-            <span className="count">{context.filterRef.current.get(name)[0][2]}</span>
+        <div className="category-header" onClick={() => onExpand(name, context.filterRef)} style={{ color: context.filterRef.current.get(name)![0][1] }}>
+            <span> {context.filterRef.current.get(name)![0][5] ? <>▼ {name}</> : <>▶ {name}</>}</span>
+            <span className="count">{context.filterRef.current.get(name)![0][2]}</span>
         </div>
 
-        {context.filterRef.current.get(name)[0][5] &&
+        {context.filterRef.current.get(name)![0][5] &&
             <div className="category-items">
-                {context.filterRef.current.get(name).map((type, i) => 
+                {context.filterRef.current.get(name)!.map((type, i) => 
                     <label className="filter-item" key={i}>
                         <input type="checkbox" style={{ accentColor: type[1] }} checked={type[4]} 
                         onChange={() => {
