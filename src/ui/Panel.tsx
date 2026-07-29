@@ -218,30 +218,6 @@ function DetailsPanel() {
                     </div>
                 </div>
 
-                {/* <div className="info-section">
-                    <h3>Current State</h3>
-
-                    <div className="info-row">
-                        <span>Latitude</span>
-                        <span>{satellite.tleAccuracy == "Decayed" ? "?" : (satellite.lat * (180 / Math.PI)).toFixed(2)}°</span>
-                    </div>
-
-                    <div className="info-row">
-                        <span>Longitude</span>
-                        <span>{satellite.tleAccuracy == "Decayed" ? "?" : (satellite.lon * (180 / Math.PI)).toFixed(2)}°</span>
-                    </div>
-
-                    <div className="info-row">
-                        <span>Altitude</span>
-                        <span>{satellite.tleAccuracy == "Decayed" ? "?" : satellite.alt.toFixed(2)} km</span>
-                    </div>
-
-                    <div className="info-row">
-                        <span>Velocity</span>
-                        <span>{satellite.tleAccuracy == "Decayed" ? "?" : Math.sqrt(satellite.velX**2 + satellite.velY**2 + satellite.velZ**2).toFixed(2)} km/s</span>
-                    </div>
-                </div> */}
-
                 <div className="info-section">
                     <h3>Orbital Elements</h3>
 
@@ -318,7 +294,7 @@ function DetailsPanel() {
                             Mean Motion DT²
                             <Tooltip text='Rate of change of mean motion over time.' />
                         </span>
-                        <span>−{satellite.meanMotionDT2}</span>
+                        <span>{satellite.meanMotionDT2}</span>
                     </div>
 
                     <div className="info-row">
@@ -374,7 +350,7 @@ function DetailsPanel() {
 
                         <div className="info-row">
                             <span>Orbit Period</span>
-                            <span>{(86400 / satellite.meanMotion / 60) > 180 ? (86400 / satellite.meanMotion / 60 / 60).toFixed(2) + " hours" : (86400 / satellite.meanMotion / 60).toFixed(2) + " mins"}</span>
+                            <span>{(86400 / satellite.meanMotion / 60) > 180 ? (86400 / satellite.meanMotion / 60 / 60).toFixed(2) + ((86400 / satellite.meanMotion / 60 / 60) > 1 ? " hours" : " hour") : (86400 / satellite.meanMotion / 60).toFixed(2) + ((86400 / satellite.meanMotion / 60) > 1 ? " mins" : " min")}</span>
                         </div>
 
                     </div>
@@ -385,7 +361,7 @@ function DetailsPanel() {
                         <div className="pass-card">
 
                             <div className="pass-time">
-                                +{(86400 / satellite.meanMotion / 60) > 180 ? ((86400 / satellite.meanMotion / 60 / 60) / 3).toFixed(2) + " hours" : ((86400 / satellite.meanMotion / 60) / 3).toFixed(2) + " mins"}
+                                +{(86400 / satellite.meanMotion / 60) > 180 ? ((86400 / satellite.meanMotion / 60 / 60) / 3).toFixed(2) + (((86400 / satellite.meanMotion / 60 / 60) / 3) > 1 ? " hours" : " hour") : ((86400 / satellite.meanMotion / 60) / 3).toFixed(2) + (((86400 / satellite.meanMotion / 60) / 3) > 1 ? " mins" : " min")}
                             </div>
 
                             <div className="pass-location">
@@ -399,7 +375,7 @@ function DetailsPanel() {
                         <div className="pass-card">
 
                             <div className="pass-time">
-                                +{(86400 / satellite.meanMotion / 60) > 180 ? ((86400 / satellite.meanMotion / 60 / 60) / 3 * 2).toFixed(2) + " hours" : ((86400 / satellite.meanMotion / 60) / 3 * 2).toFixed(2) + " mins"}
+                                +{(86400 / satellite.meanMotion / 60) > 180 ? ((86400 / satellite.meanMotion / 60 / 60) / 3 * 2).toFixed(2) + (((86400 / satellite.meanMotion / 60 / 60) / 3 * 2) > 1 ? " hours" : " hour") : ((86400 / satellite.meanMotion / 60) / 3 * 2).toFixed(2) + (((86400 / satellite.meanMotion / 60) / 3 * 2) > 1 ? " mins" : "min")}
                             </div>
 
                             <div className="pass-location">
@@ -413,7 +389,7 @@ function DetailsPanel() {
                         <div className="pass-card">
 
                             <div className="pass-time">
-                                +{(86400 / satellite.meanMotion / 60) > 180 ? ((86400 / satellite.meanMotion / 60 / 60)).toFixed(2) + " hours" : ((86400 / satellite.meanMotion / 60)).toFixed(2) + " mins"}
+                                +{(86400 / satellite.meanMotion / 60) > 180 ? ((86400 / satellite.meanMotion / 60 / 60)).toFixed(2) + (((86400 / satellite.meanMotion / 60 / 60)) > 1 ? " hours" : " hour") : ((86400 / satellite.meanMotion / 60)).toFixed(2) + (((86400 / satellite.meanMotion / 60)) > 1 ? " mins" : " min")}
                             </div>
 
                             <div className="pass-location">
@@ -438,6 +414,7 @@ function DetailsPanel() {
                 ><b>Focus</b></button>
                 <button className={context.followSatellite.current ? "active" : ""}
                 onClick={() => {
+                    context.setTimeRate(1);
                     context.followSatellite.current = !context.followSatellite.current;
                 }}
                 ><b>Follow</b></button>

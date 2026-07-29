@@ -64,3 +64,4 @@ Try Myst Atlas here: https://myst-atlas.vercel.app/
 
 - Accuracy depends on the quality and age of the TLE data.
 - Rendering uses scaled visualization while maintaining orbital calculations.
+- First load may take a while as a lot of data is being processed.

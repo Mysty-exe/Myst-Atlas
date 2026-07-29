@@ -30,6 +30,8 @@ std::string getTLEAccuracyColour(std::string accuracy)
 
     if (accuracy == "Decayed")
         return "red";
+
+    return "";
 }
 
 Satellite::Satellite()
@@ -190,9 +192,11 @@ std::string Satellite::getSatelliteTypeStr(SatelliteType satelliteType)
         return "Radar Calibration";
     case SatelliteType::CubeSats:
         return "CubeSats";
+    case SatelliteType::Unknown:
+        return "Unknown";
     }
 
-    return "Unknown";
+    return "";
 }
 
 std::string Satellite::getSatelliteGroupType(SatelliteType satelliteType)
@@ -288,9 +292,15 @@ SatelliteDetails Satellite::getDetails(std::time_t startDate, double tSince)
     int secs = (currentTime - tle.Epoch()).TotalSeconds();
     details.tleAccuracy = getTLEAccuracy(secs);
     if (secs >= 86400)
-        details.tleAge = std::to_string((currentTime - tle.Epoch()).Days()) + " Days";
+    {
+        int days = (currentTime - tle.Epoch()).Days();
+        details.tleAge = std::to_string(days) + (days > 1 ? " Days" : " Day");
+    }
     else
-        details.tleAge = std::to_string((currentTime - tle.Epoch()).Hours()) + " Hours";
+    {
+        int hours = (currentTime - tle.Epoch()).Hours();
+        details.tleAge = std::to_string(hours) + (hours > 1 ? " Hours" : " Hour");
+    }
 
     if (pos.altitude == 0)
         details.tleAccuracy = "Decayed";

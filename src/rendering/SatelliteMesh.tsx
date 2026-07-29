@@ -87,6 +87,7 @@ function SatelliteGroup() {
     const meshRef = useRef<InstancedMesh>(null);
     const hoverMesh = useRef<Mesh>(null!);
     const dummy = new Object3D();
+    const trajectoryTimer = useRef(0.25);
     const locationTimer = useRef(2);
 
     useFrame((_, delta) => {
@@ -107,10 +108,12 @@ function SatelliteGroup() {
                 context.selectedSatelliteIndex.current.length = 0;
                 context.setSelectedLocation(null);
                 hoveredSats.current.map(i => context.selectedSatelliteIndex.current.push(i));
+                locationTimer.current = 2;
             }
             else {
                 context.setSelectedLocation(null);
                 context.selectedSatelliteIndex.current.length = 0;
+                locationTimer.current = 2;
             }
         }
         clickedSatellites.current.length = 0;
@@ -118,6 +121,7 @@ function SatelliteGroup() {
         if (context.selectedSatelliteIndex.current.length == 1  && !context.resetFilterRef.current)
         {
             locationTimer.current += delta;
+            trajectoryTimer.current += delta;
 
             if (context.workerRef.current) {
                 context.workerRef.current.postMessage({
@@ -125,10 +129,13 @@ function SatelliteGroup() {
                     index: context.selectedSatelliteIndex.current[0]
                 });
 
-                context.workerRef.current.postMessage({
-                    type: "getTrajectory",
-                    index: context.selectedSatelliteIndex.current[0]
-                });
+                if (trajectoryTimer.current > 0.25) {
+                    context.workerRef.current.postMessage({
+                        type: "getTrajectory",
+                        index: context.selectedSatelliteIndex.current[0]
+                    });
+                    trajectoryTimer.current = 0;
+                }
 
                 if (locationTimer.current > 5 && context.trajectoryRef.current)
                 {
@@ -147,6 +154,8 @@ function SatelliteGroup() {
             context.trajectoryRef.current = null;
             context.setSelectedSatellite(null);
             context.setSelectedLocation(null);
+            trajectoryTimer.current = 0.5;
+            locationTimer.current = 2;
         }
 
         if (context.selectedSatelliteIndex.current.length == 1 && !context.doneMovingCam.current) {
@@ -160,6 +169,8 @@ function SatelliteGroup() {
             context.setSelectedSatellite(null);
             context.selectedSatelliteIndex.current.length = 0;
             context.setSelectedLocation(null);
+            trajectoryTimer.current = 0.5;
+            locationTimer.current = 2;
 
             context.resetFilterRef.current = false;
         }

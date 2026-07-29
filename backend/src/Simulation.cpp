@@ -54,55 +54,57 @@ Simulation::Simulation()
               std::make_pair(SatelliteType::RadarCalibration, 0),
               std::make_pair(SatelliteType::CubeSats, 0)}}};
 
-    satelliteFiles = {// Earth Observation / Mission
-                      {"stations", {SatelliteType::SpaceStation, "#34D399"}},
-                      {"weather", {SatelliteType::Weather, "#34D399"}},
-                      {"resource", {SatelliteType::EarthResources, "#34D399"}},
-                      {"sar", {SatelliteType::SyntheticApertureRadar, "#34D399"}},
-                      {"sarsat", {SatelliteType::SearchAndRescue, "#34D399"}},
-                      {"dmc", {SatelliteType::DisasterMonitoring, "#34D399"}},
-                      {"tdrss", {SatelliteType::TrackingAndDataRelay, "#34D399"}},
-                      {"argos", {SatelliteType::Argos, "#34D399"}},
-                      {"planet", {SatelliteType::Planet, "#34D399"}},
-                      {"spire", {SatelliteType::Spire, "#34D399"}},
+    satelliteFiles = {
+        {"starlink", {SatelliteType::Starlink, "#38BDF8"}},
+        {"geo", {SatelliteType::ActiveGeosynchronous, "#38BDF8"}},
+        {"satnogs", {SatelliteType::SatNOGS, "#38BDF8"}},
 
-                      // Communications
-                      {"geo", {SatelliteType::ActiveGeosynchronous, "#38BDF8"}},
-                      {"intelsat", {SatelliteType::Intelsat, "#38BDF8"}},
-                      {"ses", {SatelliteType::SES, "#38BDF8"}},
-                      {"eutelsat", {SatelliteType::Eutelsat, "#38BDF8"}},
-                      {"telesat", {SatelliteType::Telesat, "#38BDF8"}},
-                      {"starlink", {SatelliteType::Starlink, "#38BDF8"}},
-                      {"oneweb", {SatelliteType::OneWeb, "#38BDF8"}},
-                      {"qianfan", {SatelliteType::Qianfan, "#38BDF8"}},
-                      {"hulianwang", {SatelliteType::HulianwangDigui, "#38BDF8"}},
-                      {"kuiper", {SatelliteType::Kuiper, "#38BDF8"}},
-                      {"iridium-NEXT", {SatelliteType::IridiumNext, "#38BDF8"}},
-                      {"orbcomm", {SatelliteType::Orbcomm, "#38BDF8"}},
-                      {"globalstar", {SatelliteType::Globalstar, "#38BDF8"}},
-                      {"amateur", {SatelliteType::AmateurRadio, "#38BDF8"}},
-                      {"satnogs", {SatelliteType::SatNOGS, "#38BDF8"}},
-                      {"x-comm", {SatelliteType::ExperimentalComm, "#38BDF8"}},
-                      {"other-comm", {SatelliteType::OtherComm, "#38BDF8"}},
+        // Earth Observation / Mission
+        {"stations", {SatelliteType::SpaceStation, "#34D399"}},
+        {"weather", {SatelliteType::Weather, "#34D399"}},
+        {"resource", {SatelliteType::EarthResources, "#34D399"}},
+        {"sar", {SatelliteType::SyntheticApertureRadar, "#34D399"}},
+        {"sarsat", {SatelliteType::SearchAndRescue, "#34D399"}},
+        {"dmc", {SatelliteType::DisasterMonitoring, "#34D399"}},
+        {"tdrss", {SatelliteType::TrackingAndDataRelay, "#34D399"}},
+        {"argos", {SatelliteType::Argos, "#34D399"}},
+        {"planet", {SatelliteType::Planet, "#34D399"}},
+        {"spire", {SatelliteType::Spire, "#34D399"}},
 
-                      // Navigation
-                      {"gnss", {SatelliteType::GNSS, "#A78BFA"}},
-                      {"gps-ops", {SatelliteType::GPS, "#A78BFA"}},
-                      {"glo-ops", {SatelliteType::GLONASS, "#A78BFA"}},
-                      {"galileo", {SatelliteType::Galileo, "#A78BFA"}},
-                      {"beidou", {SatelliteType::BeiDou, "#A78BFA"}},
-                      {"sbas", {SatelliteType::SatelliteBasedAugmentation, "#A78BFA"}},
+        // Communications
+        {"intelsat", {SatelliteType::Intelsat, "#38BDF8"}},
+        {"ses", {SatelliteType::SES, "#38BDF8"}},
+        {"eutelsat", {SatelliteType::Eutelsat, "#38BDF8"}},
+        {"telesat", {SatelliteType::Telesat, "#38BDF8"}},
+        {"oneweb", {SatelliteType::OneWeb, "#38BDF8"}},
+        {"qianfan", {SatelliteType::Qianfan, "#38BDF8"}},
+        {"hulianwang", {SatelliteType::HulianwangDigui, "#38BDF8"}},
+        {"kuiper", {SatelliteType::Kuiper, "#38BDF8"}},
+        {"iridium-NEXT", {SatelliteType::IridiumNext, "#38BDF8"}},
+        {"orbcomm", {SatelliteType::Orbcomm, "#38BDF8"}},
+        {"globalstar", {SatelliteType::Globalstar, "#38BDF8"}},
+        {"amateur", {SatelliteType::AmateurRadio, "#38BDF8"}},
+        {"x-comm", {SatelliteType::ExperimentalComm, "#38BDF8"}},
+        {"other-comm", {SatelliteType::OtherComm, "#38BDF8"}},
 
-                      // Science & Research
-                      {"science", {SatelliteType::SpaceAndEarthScience, "#FBBF24"}},
-                      {"geodetic", {SatelliteType::Geodetic, "#FBBF24"}},
-                      {"engineering", {SatelliteType::Engineering, "#FBBF24"}},
-                      {"education", {SatelliteType::Education, "#FBBF24"}},
+        // Navigation
+        {"gnss", {SatelliteType::GNSS, "#A78BFA"}},
+        {"gps-ops", {SatelliteType::GPS, "#A78BFA"}},
+        {"glo-ops", {SatelliteType::GLONASS, "#A78BFA"}},
+        {"galileo", {SatelliteType::Galileo, "#A78BFA"}},
+        {"beidou", {SatelliteType::BeiDou, "#A78BFA"}},
+        {"sbas", {SatelliteType::SatelliteBasedAugmentation, "#A78BFA"}},
 
-                      // Government & Miscellaneous
-                      {"military", {SatelliteType::MiscellaneousMilitary, "#FB7185"}},
-                      {"radar", {SatelliteType::RadarCalibration, "#FB7185"}},
-                      {"cubesat", {SatelliteType::CubeSats, "#FB7185"}}};
+        // Science & Research
+        {"science", {SatelliteType::SpaceAndEarthScience, "#FBBF24"}},
+        {"geodetic", {SatelliteType::Geodetic, "#FBBF24"}},
+        {"engineering", {SatelliteType::Engineering, "#FBBF24"}},
+        {"education", {SatelliteType::Education, "#FBBF24"}},
+
+        // Government & Miscellaneous
+        {"military", {SatelliteType::MiscellaneousMilitary, "#FB7185"}},
+        {"radar", {SatelliteType::RadarCalibration, "#FB7185"}},
+        {"cubesat", {SatelliteType::CubeSats, "#FB7185"}}};
 
     startDate = std::time(nullptr);
 };
@@ -111,9 +113,6 @@ std::vector<std::string> noradIDs;
 
 void Simulation::initializeSatelliteGroup(std::string group, std::string data)
 {
-    std::time_t now = std::time(nullptr);
-    std::tm *local_time = std::localtime(&now);
-
     std::string line, currentName;
     std::string currentTLELine1, currentTLELine2;
     auto type = getSatelliteType(group);
@@ -162,6 +161,8 @@ void Simulation::initializeSatelliteGroup(std::string group, std::string data)
         }
     }
 
+    std::cout << "Done Initializing Group: " + group << std::endl;
+
     satellites.push_back(std::make_pair(groupType, std::move(sats)));
 }
 
@@ -170,6 +171,8 @@ std::tuple<SatelliteType, std::string> Simulation::getSatelliteType(std::string 
     for (int i = 0; i < satelliteFiles.size(); i++)
         if (satelliteFiles[i].first == group)
             return satelliteFiles[i].second;
+
+    return std::make_tuple(SatelliteType::Unknown, "");
 }
 
 std::string Simulation::getSatelliteGroupType(std::string type)
@@ -247,16 +250,6 @@ std::vector<std::string> Simulation::getSatelliteGroups()
     return groups;
 }
 
-// 25544
-// 36086
-// 49044
-// 53239
-// 54216
-// 68319
-// 68689
-// 68837
-// 69049
-// 69180
 std::vector<SatelliteDTO> Simulation::getSatellitesDTO(std::string group, std::time_t startDate, double tSince)
 {
     SatelliteType groupType = std::get<0>(getSatelliteType(group));
@@ -288,6 +281,8 @@ int Simulation::getSatellitesNum(std::string group)
             return satellites[i].second.size();
         }
     }
+
+    return -1;
 }
 
 std::vector<Satellite> &Simulation::getSatelliteGroup(std::string group)
@@ -298,6 +293,8 @@ std::vector<Satellite> &Simulation::getSatelliteGroup(std::string group)
         if (satellites[i].first == groupType)
             return satellites[i].second;
     }
+
+    throw std::runtime_error("Satellite group not found: " + group);
 }
 
 std::vector<std::string> Simulation::getSatelliteTypes(std::string group)
@@ -387,6 +384,8 @@ std::string getSatelliteGroupColour(std::string group)
 
     if (group == "Miscellaneous")
         return "#FB7185";
+
+    return "";
 }
 
 EMSCRIPTEN_BINDINGS(my_module)

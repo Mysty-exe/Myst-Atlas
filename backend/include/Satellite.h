@@ -63,7 +63,9 @@ enum class SatelliteType
 
     MiscellaneousMilitary,
     RadarCalibration,
-    CubeSats
+    CubeSats,
+
+    Unknown
 };
 
 struct Position

@@ -38,18 +38,34 @@ async function start(t: number) {
     satelliteGroups = allGroups.slice();
     tSince = t;
 
-    for (const group of satelliteGroups) {
-        await loadTLE(group);
+    // for (const group of satelliteGroups) {
+    //     await loadTLE(group);
         
-        const data = await getTLE(group);
+    //     const data = await getTLE(group);
 
-        if (!data) {
-            console.error("Skipping group: ", group);
-            continue;
-        }
+    //     if (!data) {
+    //         console.error("Skipping group: ", group);
+    //         continue;
+    //     }
         
-        Module.initializeSatelliteGroup(group, data);
-    }
+    //     Module.initializeSatelliteGroup(group, data);
+    // }
+
+    await Promise.all(
+        satelliteGroups.map(async (group) => {
+            console.log("Starting group: ", group);
+            await loadTLE(group);
+
+            const data = await getTLE(group);
+
+            if (!data) {
+                console.error("Skipping group:", group);
+                return;
+            }
+
+            Module.initializeSatelliteGroup(group, data);
+        })
+    );
     
     filterTypes();
     running = true;
@@ -86,7 +102,7 @@ function updateLoop() {
         
     });
 
-    setTimeout(updateLoop, 1000 / 60);
+    setTimeout(updateLoop, 1000 / 4);
 }
 
 function filterType(group: string) {
