@@ -39,5 +39,11 @@ export async function loadTLE(group: string) {
 export async function getTLE(group: string) {
     const db = await dbPromise;
     const cached = await db.get("tle", group);
+
+    if (!cached) {
+        console.error("Missing TLE cache:", group);
+        return null;
+    }
+
     return cached.data;
 }

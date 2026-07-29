@@ -40,7 +40,14 @@ async function start(t: number) {
 
     for (const group of satelliteGroups) {
         await loadTLE(group);
+        
         const data = await getTLE(group);
+
+        if (!data) {
+            console.error("Skipping group: ", group);
+            continue;
+        }
+        
         Module.initializeSatelliteGroup(group, data);
     }
     
