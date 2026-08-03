@@ -38,30 +38,13 @@ async function start(t: number) {
     satelliteGroups = allGroups.slice();
     tSince = t;
 
-    // for (const group of satelliteGroups) {
-    //     await loadTLE(group);
-        
-    //     const data = await getTLE(group);
-
-    //     if (!data) {
-    //         console.error("Skipping group: ", group);
-    //         continue;
-    //     }
-        
-    //     Module.initializeSatelliteGroup(group, data);
-    // }
-
     await Promise.all(
         satelliteGroups.map(async (group) => {
-            console.log("Starting group: ", group);
             await loadTLE(group);
 
             const data = await getTLE(group);
 
-            if (!data) {
-                console.error("Skipping group:", group);
-                return;
-            }
+            if (!data) return;
 
             Module.initializeSatelliteGroup(group, data);
         })

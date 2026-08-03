@@ -55,10 +55,6 @@ Simulation::Simulation()
               std::make_pair(SatelliteType::CubeSats, 0)}}};
 
     satelliteFiles = {
-        {"starlink", {SatelliteType::Starlink, "#38BDF8"}},
-        {"geo", {SatelliteType::ActiveGeosynchronous, "#38BDF8"}},
-        {"satnogs", {SatelliteType::SatNOGS, "#38BDF8"}},
-
         // Earth Observation / Mission
         {"stations", {SatelliteType::SpaceStation, "#34D399"}},
         {"weather", {SatelliteType::Weather, "#34D399"}},
@@ -72,10 +68,12 @@ Simulation::Simulation()
         {"spire", {SatelliteType::Spire, "#34D399"}},
 
         // Communications
+        {"geo", {SatelliteType::ActiveGeosynchronous, "#38BDF8"}},
         {"intelsat", {SatelliteType::Intelsat, "#38BDF8"}},
         {"ses", {SatelliteType::SES, "#38BDF8"}},
         {"eutelsat", {SatelliteType::Eutelsat, "#38BDF8"}},
         {"telesat", {SatelliteType::Telesat, "#38BDF8"}},
+        {"starlink", {SatelliteType::Starlink, "#38BDF8"}},
         {"oneweb", {SatelliteType::OneWeb, "#38BDF8"}},
         {"qianfan", {SatelliteType::Qianfan, "#38BDF8"}},
         {"hulianwang", {SatelliteType::HulianwangDigui, "#38BDF8"}},
@@ -84,6 +82,7 @@ Simulation::Simulation()
         {"orbcomm", {SatelliteType::Orbcomm, "#38BDF8"}},
         {"globalstar", {SatelliteType::Globalstar, "#38BDF8"}},
         {"amateur", {SatelliteType::AmateurRadio, "#38BDF8"}},
+        {"satnogs", {SatelliteType::SatNOGS, "#38BDF8"}},
         {"x-comm", {SatelliteType::ExperimentalComm, "#38BDF8"}},
         {"other-comm", {SatelliteType::OtherComm, "#38BDF8"}},
 
@@ -160,8 +159,6 @@ void Simulation::initializeSatelliteGroup(std::string group, std::string data)
             break;
         }
     }
-
-    std::cout << "Done Initializing Group: " + group << std::endl;
 
     satellites.push_back(std::make_pair(groupType, std::move(sats)));
 }
