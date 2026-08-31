@@ -484,39 +484,51 @@ input::-webkit-inner-spin-button {
     text-align: right;
 }
 
+/* Mobile landscape */
 @media (max-width: 1000px) and (orientation: landscape) {
-
     .satellite-panel {
-        top: 65px;
+        top: 70px;
         right: 12px;
-
-        width: min(440px, 58vw);
-        max-height: calc(100dvh - 77px);
-
-        border-radius: 12px;
+        width: min(330px, 38vw);
+        max-height: calc(100dvh - 82px);
     }
 
+    .satellite-selection-header,
     .satellite-header {
-        padding: 12px 14px 8px;
+        padding: 14px 16px;
     }
 
+    .satellite-selection-header h2,
     .satellite-header h2 {
-        font-size: 16px;
+        font-size: 17px;
     }
 
-    .close-button {
-        width: 28px;
-        height: 28px;
+    .selection-content,
+    .panel-content {
+        padding: 0 14px 14px;
+    }
+
+    .satellite-options {
+        max-height: calc(100dvh - 180px);
+    }
+
+    .panel-tabs {
+        padding: 0 14px 10px;
+        gap: 6px;
+    }
+
+    .tab {
+        padding: 7px;
+        font-size: 12px;
     }
 
     .satellite-status {
         gap: 6px;
-        padding: 0 14px 8px;
+        padding: 0 14px 10px;
     }
 
     .status-item {
-        padding: 7px 8px;
-        gap: 2px;
+        padding: 7px;
     }
 
     .status-item span {
@@ -524,65 +536,22 @@ input::-webkit-inner-spin-button {
     }
 
     .status-item b {
-        font-size: 11px;
-    }
-
-    .satellite-type {
-        font-size: 11px;
-    }
-
-    .panel-tabs {
-        padding: 0 14px 8px;
-        gap: 5px;
-    }
-
-    .tab {
-        padding: 6px;
-        font-size: 11px;
-    }
-
-    .panel-content {
-        min-height: 0;
-        padding: 0 14px 10px;
-    }
-
-    .info-section h3 {
-        margin-bottom: 8px;
-        font-size: 13px;
-    }
-
-    .info-row {
-        padding: 4px 0;
         font-size: 12px;
     }
 
-    .pass-card {
-        padding: 7px 9px;
-        margin-bottom: 5px;
-    }
-
-    .pass-time,
-    .pass-location {
-        font-size: 11px;
-    }
-
     .panel-actions {
-        flex-shrink: 0;
-
-        grid-template-columns: repeat(4, 1fr);
         gap: 6px;
-        padding: 10px 12px;
+        padding: 12px;
     }
 
     .panel-actions button {
-        min-width: 0;
-        padding: 7px 4px;
-        font-size: 10px;
-        white-space: nowrap;
+        padding: 8px;
+        font-size: 12px;
     }
 }
 
 
+/* Mobile portrait */
 @media (max-width: 600px) and (orientation: portrait) {
     .satellite-panel {
         top: 110px;

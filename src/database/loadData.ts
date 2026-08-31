@@ -1,7 +1,7 @@
 // @ts-ignore
 import createModule from '../wasm/SatelliteCoverage.js';
 import type { Satellite } from '../rendering/SatelliteMesh.js';
-import { loadTLE, getTLE } from "./db.js";
+import { loadTLE, getTLE, siteUp } from "./db.js";
 
 let Module: any;
 
@@ -38,9 +38,12 @@ async function start(t: number) {
     satelliteGroups = allGroups.slice();
     tSince = t;
 
+    const down = await siteUp();
+
     await Promise.all(
         satelliteGroups.map(async (group) => {
-            await loadTLE(group);
+            if (!down)
+                await loadTLE(group);
 
             const data = await getTLE(group);
 

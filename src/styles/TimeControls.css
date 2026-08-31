@@ -323,68 +323,55 @@
     color: white;
 }
 
-@media (max-width: 500px) {
+/* Mobile portrait */
+@media (max-width: 600px) and (orientation: portrait) {
+
     .time-popup {
         top: 105px;
-        transition:
-        left 0.3s ease
-    }
-
-    .time-popup.open {        
-        transition:
-        left 0.3s ease,
-    }
-
-    .time-popup.open.move {
-        left: 5px;
-    }
-}
-
-/* Mobile landscape */
-@media (max-width: 1000px) and (orientation: landscape) {
-
-    .time-popup {
-        top: 65px;
-        right: 12px;
-
-        width: min(360px, 48vw);
+        right: 8px;
+        width: min(280px, calc(100vw - 32px));
         padding: 12px;
-
         border-radius: 12px;
     }
 
     .time-popup.open.move {
-        right: min(48vw, 455px);
+        left: auto;
+        right: 8px;
     }
 
-    .time-popup h3,
+    .time-header {
+        margin-bottom: 7px;
+    }
+
     .time-header h3 {
         font-size: 14px;
     }
 
-    .time-header {
-        margin-bottom: 8px;
+    .close-button {
+        width: 24px;
+        height: 24px;
+        font-size: 16px;
     }
 
     .current-time {
-        margin-top: 6px;
+        margin-top: 5px;
         padding: 8px;
-        font-size: 12px;
+        font-size: 11px;
     }
 
     .time-controls {
-        gap: 8px;
-        margin: 9px 0;
+        gap: 7px;
+        margin: 8px 0;
     }
 
     .time-controls button {
-        width: 34px;
-        height: 28px;
-        font-size: 12px;
+        width: 32px;
+        height: 27px;
+        font-size: 11px;
     }
 
     .speed-section {
-        margin-top: 7px;
+        margin-top: 6px;
     }
 
     .speed-section label {
@@ -393,7 +380,7 @@
 
     .speed-options {
         gap: 4px;
-        margin-top: 5px;
+        margin-top: 4px;
     }
 
     .speed-options button {
@@ -402,29 +389,131 @@
     }
 
     .time-popup input {
-        margin-top: 8px;
-        padding: 6px;
-        font-size: 12px;
-    }
-
-    .rate-input {
-        gap: 5px;
-    }
-
-    .rate-input input {
-        padding: 6px 26px 6px 8px;
-        font-size: 12px;
-    }
-
-    .rate-unit {
-        right: 9px;
+        margin-top: 7px;
+        padding: 6px 8px;
         font-size: 11px;
     }
 
-    .reset-button {
-        margin-top: 7px;
-        margin-bottom: 5px;
-        padding: 7px;
+    .rate-input {
+        gap: 4px;
+    }
+
+    .rate-input input {
+        padding: 6px 25px 6px 8px;
+        font-size: 11px;
+    }
+
+    .rate-unit {
+        right: 8px;
         font-size: 10px;
+    }
+
+    .reset-button {
+        margin-top: 6px;
+        margin-bottom: 3px;
+        padding: 6px;
+        font-size: 10px;
+    }
+}
+
+
+/* Mobile landscape */
+@media (max-width: 1000px) and (orientation: landscape) {
+
+    .time-popup {
+        top: 60px;
+        right: 8px;
+        width: min(280px, 38vw);
+        padding: 10px;
+        border-radius: 11px;
+    }
+
+    .time-popup.open.move {
+        right: min(38vw, 350px);
+    }
+
+    .time-header {
+        margin-bottom: 5px;
+    }
+
+    .time-header h3 {
+        font-size: 13px;
+    }
+
+    .close-button {
+        width: 22px;
+        height: 22px;
+        font-size: 15px;
+    }
+
+    .current-time {
+        margin-top: 4px;
+        padding: 6px;
+        font-size: 10px;
+    }
+
+    .time-controls {
+        gap: 6px;
+        margin: 6px 0;
+    }
+
+    .time-controls button {
+        width: 30px;
+        height: 25px;
+        font-size: 10px;
+    }
+
+    .speed-section {
+        margin-top: 5px;
+    }
+
+    .speed-section label {
+        font-size: 10px;
+    }
+
+    .speed-options {
+        gap: 3px;
+        margin-top: 3px;
+    }
+
+    .speed-options button {
+        padding: 4px 0;
+        font-size: 9px;
+    }
+
+    .time-popup input {
+        margin-top: 6px;
+        padding: 5px 7px;
+        font-size: 10px;
+    }
+
+    .rate-input {
+        gap: 4px;
+    }
+
+    .rate-input input {
+        padding: 5px 23px 5px 7px;
+        font-size: 10px;
+    }
+
+    .rate-unit {
+        right: 7px;
+        font-size: 9px;
+    }
+
+    .reset-button {
+        margin-top: 5px;
+        margin-bottom: 2px;
+        padding: 5px;
+        font-size: 9px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .time-popup input,
+    .search,
+    .rate-input input {
+        font-size: 16px;
     }
 }

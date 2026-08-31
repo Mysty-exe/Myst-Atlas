@@ -183,7 +183,7 @@
 
 @media (max-width: 500px) {
     .filter-container {
-        top: 125px;
+        top: 60dvh;
         left: 10px;
     }
 

@@ -324,3 +324,13 @@
         max-width: none;
     }
 }
+
+@media (max-width: 600px) {
+
+    input,
+    textarea,
+    select {
+        font-size: 16px;
+    }
+}
+    

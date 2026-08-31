@@ -6,6 +6,25 @@ let dbPromise = openDB("SatelliteCoverage", 1, {
     },
 });
 
+export async function siteUp() {
+    try {
+        const response = await fetch(
+            `https://celestrak.org`
+        );
+
+        if (response.status !== 200) {
+            console.log("Celestrak Is Down.")
+            return false;
+        }
+
+    } catch (error) {
+        console.log("Celestrak Is Down.")
+        return false;
+    }
+
+    return true;
+}
+
 export async function loadTLE(group: string) {
     const db = await dbPromise;
     const cached = await db.get("tle", group);
@@ -21,31 +40,44 @@ export async function loadTLE(group: string) {
         }
     }
 
-    const response = await fetch(
-        `https://celestrak.org/NORAD/elements/gp.php?GROUP=${group}&FORMAT=tle`
-    );
+     try {
+        const response = await fetch(
+            `https://celestrak.org/NORAD/elements/gp.php?GROUP=${group}&FORMAT=tle`
+        );
 
-    if (response.status == 403 || response.status == 404)
-    {
-        console.log("Response: " + response.status + " - Couldn't fetch TLE data");
-        return;
+        if (response.status === 403 || response.status === 404) {
+            console.log(
+                `Response: ${response.status} - Couldn't fetch TLE data`
+            );
+            return;
+        }
+
+        if (!response.ok) {
+            console.log(
+                `Response: ${response.status} - Couldn't fetch TLE data`
+            );
+            return;
+        }
+
+        const text = await response.text();
+
+        if (text.length === 0) {
+            console.log("No data found for group:", group);
+            return;
+        }
+
+        await db.put(
+            "tle",
+            {
+                data: text,
+                downloadedAt: Date.now(),
+            },
+            group
+        );
+
+    } catch (error) {
+        console.error("Failed to fetch TLE data:", error);
     }
-
-    const text = await response.text();
-
-    if (text.length == 0) {
-        console.log("No data found for group: ", group);
-        return;
-    }
-
-    await db.put(
-        "tle",
-        {
-            data: text,
-            downloadedAt: Date.now(),
-        },
-        group
-    );
 }
 
 export async function getTLE(group: string) {

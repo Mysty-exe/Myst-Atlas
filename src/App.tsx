@@ -66,8 +66,6 @@ function App() {
             { type: "module" }
         );
 
-        console.log(window.innerWidth, window.innerHeight);
-
         workerRef.current = worker;
 
         worker.onmessage = (event) => {

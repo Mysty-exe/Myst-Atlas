@@ -107,7 +107,6 @@ function SatelliteGroup() {
             if (clickedSatellites.current[0] != context.selectedSatelliteIndex.current[0]) {
                 context.selectedSatelliteIndex.current.length = 0;
                 context.setSelectedLocation(null);
-                console.log(clickedSatellites.current)
                 if (hoveredSats.current.length > 0)
                     hoveredSats.current.map(i => context.selectedSatelliteIndex.current.push(i));
                 else
