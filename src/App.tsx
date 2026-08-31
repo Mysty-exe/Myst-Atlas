@@ -2,7 +2,7 @@ import './styles/App.css';
 import Simulation from './core/Simulation.js';
 import { createContext, useEffect, useRef, useState, type Dispatch, type RefObject, type SetStateAction } from 'react';
 import LoadingScreen from './core/LoadingScreen.js';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useThree } from '@react-three/fiber';
 import UI from './ui/UIOverlay.js';
 import type { Satellite } from './rendering/SatelliteMesh.js';
 import type { Location } from './database/loadData.js';
@@ -65,6 +65,8 @@ function App() {
             new URL("./database/loadData.ts", import.meta.url),
             { type: "module" }
         );
+
+        console.log(window.innerWidth, window.innerHeight);
 
         workerRef.current = worker;
 

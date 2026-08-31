@@ -180,3 +180,55 @@
 
     border-radius: 0 8px 8px 0;
 }
+
+@media (max-width: 500px) {
+    .filter-container {
+        top: 125px;
+        left: 10px;
+    }
+
+    .filter-panel {
+        width: 210px;
+        max-height: calc(100vh - 145px);
+        padding: 14px;
+        border-radius: 12px;
+    }
+
+    .panel-header {
+        margin-bottom: 10px;
+    }
+
+    .panel-header h3 {
+        font-size: 16px;
+    }
+
+    .filter-actions {
+        gap: 4px;
+    }
+
+    .filter-actions button {
+        padding: 4px 7px;
+        font-size: 11px;
+    }
+
+    .category-header {
+        padding: 7px 5px;
+        font-size: 13px;
+    }
+
+    .filter-item {
+        gap: 7px;
+        padding: 5px 8px;
+        font-size: 12px;
+    }
+
+    .filter-item span {
+        font-size: 11px;
+    }
+
+    .collapse-button {
+        right: -22px;
+        width: 22px;
+        height: 52px;
+    }
+}

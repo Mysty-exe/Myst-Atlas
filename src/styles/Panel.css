@@ -483,3 +483,121 @@ input::-webkit-inner-spin-button {
 
     text-align: right;
 }
+
+@media (max-width: 1000px) and (orientation: landscape) {
+
+    .satellite-panel {
+        top: 65px;
+        right: 12px;
+
+        width: min(440px, 58vw);
+        max-height: calc(100dvh - 77px);
+
+        border-radius: 12px;
+    }
+
+    .satellite-header {
+        padding: 12px 14px 8px;
+    }
+
+    .satellite-header h2 {
+        font-size: 16px;
+    }
+
+    .close-button {
+        width: 28px;
+        height: 28px;
+    }
+
+    .satellite-status {
+        gap: 6px;
+        padding: 0 14px 8px;
+    }
+
+    .status-item {
+        padding: 7px 8px;
+        gap: 2px;
+    }
+
+    .status-item span {
+        font-size: 10px;
+    }
+
+    .status-item b {
+        font-size: 11px;
+    }
+
+    .satellite-type {
+        font-size: 11px;
+    }
+
+    .panel-tabs {
+        padding: 0 14px 8px;
+        gap: 5px;
+    }
+
+    .tab {
+        padding: 6px;
+        font-size: 11px;
+    }
+
+    .panel-content {
+        min-height: 0;
+        padding: 0 14px 10px;
+    }
+
+    .info-section h3 {
+        margin-bottom: 8px;
+        font-size: 13px;
+    }
+
+    .info-row {
+        padding: 4px 0;
+        font-size: 12px;
+    }
+
+    .pass-card {
+        padding: 7px 9px;
+        margin-bottom: 5px;
+    }
+
+    .pass-time,
+    .pass-location {
+        font-size: 11px;
+    }
+
+    .panel-actions {
+        flex-shrink: 0;
+
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+        padding: 10px 12px;
+    }
+
+    .panel-actions button {
+        min-width: 0;
+        padding: 7px 4px;
+        font-size: 10px;
+        white-space: nowrap;
+    }
+}
+
+
+@media (max-width: 600px) and (orientation: portrait) {
+    .satellite-panel {
+        top: 110px;
+        right: 12px;
+        width: calc(100vw - 24px);
+        max-width: 330px;
+        max-height: calc(100dvh - 125px);
+    }
+
+    .satellite-select-panel {
+        width: calc(100vw - 24px);
+        max-width: 330px;
+    }
+
+    .satellite-options {
+        max-height: calc(100dvh - 220px);
+    }
+}

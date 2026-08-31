@@ -107,7 +107,11 @@ function SatelliteGroup() {
             if (clickedSatellites.current[0] != context.selectedSatelliteIndex.current[0]) {
                 context.selectedSatelliteIndex.current.length = 0;
                 context.setSelectedLocation(null);
-                hoveredSats.current.map(i => context.selectedSatelliteIndex.current.push(i));
+                console.log(clickedSatellites.current)
+                if (hoveredSats.current.length > 0)
+                    hoveredSats.current.map(i => context.selectedSatelliteIndex.current.push(i));
+                else
+                    clickedSatellites.current.map(i => context.selectedSatelliteIndex.current.push(i));
                 locationTimer.current = 2;
             }
             else {
@@ -116,9 +120,10 @@ function SatelliteGroup() {
                 locationTimer.current = 2;
             }
         }
+
         clickedSatellites.current.length = 0;
 
-        if (context.selectedSatelliteIndex.current.length == 1  && !context.resetFilterRef.current)
+        if (context.selectedSatelliteIndex.current.length == 1 && !context.resetFilterRef.current)
         {
             locationTimer.current += delta;
             trajectoryTimer.current += delta;

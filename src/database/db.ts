@@ -14,17 +14,29 @@ export async function loadTLE(group: string) {
         cached &&
         Date.now() - cached.downloadedAt < 2 * 60 * 60 * 1000
     ) {
-        return;
+        if (cached) {
+            if (cached.data.length != 0) {
+                return;
+            }
+        }
     }
 
     const response = await fetch(
         `https://celestrak.org/NORAD/elements/gp.php?GROUP=${group}&FORMAT=tle`
     );
 
-    if (response.status == 403)
+    if (response.status == 403 || response.status == 404)
+    {
+        console.log("Response: " + response.status + " - Couldn't fetch TLE data");
         return;
+    }
 
     const text = await response.text();
+
+    if (text.length == 0) {
+        console.log("No data found for group: ", group);
+        return;
+    }
 
     await db.put(
         "tle",
