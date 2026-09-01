@@ -294,12 +294,12 @@ SatelliteDetails Satellite::getDetails(std::time_t startDate, double tSince)
     if (secs >= 86400)
     {
         int days = (currentTime - tle.Epoch()).Days();
-        details.tleAge = std::to_string(days) + (days > 1 ? " Days" : " Day");
+        details.tleAge = std::to_string(days) + ((days > 1 || days < -1) ? " Days" : " Day");
     }
     else
     {
         int hours = (currentTime - tle.Epoch()).Hours();
-        details.tleAge = std::to_string(hours) + (hours > 1 ? " Hours" : " Hour");
+        details.tleAge = std::to_string(hours) + ((hours > 1 || hours < -1) ? " Hours" : " Hour");
     }
 
     if (pos.altitude == 0)
