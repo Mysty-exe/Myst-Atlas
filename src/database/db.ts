@@ -47,14 +47,14 @@ export async function loadTLE(group: string) {
 
         if (response.status === 403 || response.status === 404) {
             console.log(
-                `Response: ${response.status} - Couldn't fetch TLE data`
+                `Response: ${response.status} - Couldn't fetch TLE data for ` + group
             );
             return;
         }
 
         if (!response.ok) {
             console.log(
-                `Response: ${response.status} - Couldn't fetch TLE data`
+                `Response: ${response.status} - Couldn't fetch TLE data for ` + group
             );
             return;
         }
