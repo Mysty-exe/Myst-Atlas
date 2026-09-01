@@ -38,11 +38,11 @@ async function start(t: number) {
     satelliteGroups = allGroups.slice();
     tSince = t;
 
-    const down = await siteUp();
+    const notDown = await siteUp();
 
     await Promise.all(
         satelliteGroups.map(async (group) => {
-            if (!down)
+            if (notDown)
                 await loadTLE(group);
 
             const data = await getTLE(group);
